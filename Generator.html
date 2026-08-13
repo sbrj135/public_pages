@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator E-Sertifikat Praktisi Instan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tambahkan Library html2canvas dan jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&family=Great+Vibes&display=swap');
+        
+        .font-cinzel { font-family: 'Cinzel', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        .font-signature { font-family: 'Great Vibes', cursive; }
+        
+        body { background-color: #0f172a; color: #f1f5f9; }
+        .form-card { background-color: #1e293b; border-color: #334155; }
+        .input-box { background-color: #0f172a; border-color: #334155; color: #ffffff; }
+        .preview-pane { background-color: #020617; border-color: #1e293b; }
+
+        /* Ukuran Sertifikat Standar A4 Landscape Fix */
+        .cert-container {
+            width: 1123px;
+            height: 794px;
+            background-color: #ffffff !important;
+            color: #0f172a !important;
+            position: relative;
+            box-sizing: border-box;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        /* Container Pembungkus Luar (Preview Pane) */
+        .mobile-preview-box {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            padding: 24px 0;
+        }
+
+        /* Trik Utama Auto-Fit */
+        .cert-responsive-holder {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            aspect-ratio: 1123 / 794;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Menghitung skala secara otomatis */
+        .cert-scale-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(var(--cert-scale, 1));
+            transform-origin: center center;
+            width: 1123px;
+            height: 794px;
+        }
+
+        /* RESPONSIVE BREAKPOINTS */
+        @media (max-width: 480px) {
+            .cert-responsive-holder { max-width: 330px; }
+            .cert-scale-wrapper { --cert-scale: 0.29; }
+        }
+        @media (min-width: 481px) and (max-width: 640px) {
+            .cert-responsive-holder { max-width: 440px; }
+            .cert-scale-wrapper { --cert-scale: 0.39; }
+        }
+        @media (min-width: 641px) and (max-width: 768px) {
+            .cert-responsive-holder { max-width: 580px; }
+            .cert-scale-wrapper { --cert-scale: 0.51; }
+        }
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .cert-responsive-holder { max-width: 680px; }
+            .cert-scale-wrapper { --cert-scale: 0.60; }
+        }
+        @media (min-width: 1025px) and (max-width: 1280px) {
+            .cert-responsive-holder { max-width: 620px; }
+            .cert-scale-wrapper { --cert-scale: 0.55; }
+        }
+        @media (min-width: 1281px) {
+            .cert-responsive-holder { max-width: 820px; }
+            .cert-scale-wrapper { --cert-scale: 0.73; }
+        }
+    </style>
+</head>
+<body class="font-inter min-h-screen p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto grid grid-cols-1 xl:grid-cols-3 gap-8">
+        <!-- Panel Form Kiri -->
+        <div class="form-card border p-6 rounded-xl shadow-xl h-fit">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold text-white">Data Penerima</h2>
+                    <p class="text-xs text-slate-400">Nomor otomatis berdasarkan tanggal</p>
+                </div>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Nama Lengkap</label>
+                    <input type="text" id="inputNama" value="M. Rofiul Wany" class="w-full input-box border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Tanggal Lahir</label>
+                    <input type="text" id="inputTglLahir" value="Blora, 11 April 2006" placeholder="Blora, 11 April 2006" class="w-full input-box border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
+                </div>
+                
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Profesi / Jabatan</label>
+                    <input type="text" id="inputProfesi" value="Mahasiswa" class="w-full input-box border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
+                </div>
+                
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Nomor Urut Sertifikat</label>
+                    <input type="text" id="inputNomorUrut" value="001" placeholder="Contoh: 001" class="w-full input-box border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
+                </div>
+
+                <div class="pt-2">
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Materi Pembelajaran (Ceklist)</label>
+                    <div class="grid grid-cols-2 gap-2 text-xs mb-3">
+                        <label class="flex items-center gap-2 cursor-pointer text-slate-300"><input type="checkbox" value="Engine Power Query (M-Language)" checked class="skill-check accent-emerald-500"> Power Query</label>
+                        <label class="flex items-center gap-2 cursor-pointer text-slate-300"><input type="checkbox" value="Arsitektur Data Model &amp; Skalabilitas" checked class="skill-check accent-emerald-500"> Data Model</label>
+                        <label class="flex items-center gap-2 cursor-pointer text-slate-300"><input type="checkbox" value="Optimasi Relasi Power Pivot" checked class="skill-check accent-emerald-500"> Power Pivot</label>
+                        <label class="flex items-center gap-2 cursor-pointer text-slate-300"><input type="checkbox" value="Kombinasi Formula &amp; Rumus Measure" checked class="skill-check accent-emerald-500"> Measure</label>
+                        <label class="flex items-center gap-2 cursor-pointer text-slate-300"><input type="checkbox" value="Kalkulasi Data Tingkat Lanjut via DAX" checked class="skill-check accent-emerald-500"> DAX</label>
+                        <label class="flex items-center gap-2 cursor-pointer text-slate-300"><input type="checkbox" value="Manipulasi Data Python Pandas" checked class="skill-check accent-emerald-500"> Python Pandas</label>
+                    </div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Ketik Manual Tambahan</label>
+                    <input type="text" id="inputCustomSkill" placeholder="Ketik materi manual lainnya..." class="w-full input-box border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                </div>
+                
+                <div class="pt-4 border-t border-slate-700 space-y-3">
+                    <button id="btnDownloadPNG" type="button" class="w-full bg-blue-600 hover:bg-blue-700 font-medium py-3 px-4 rounded-lg shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer text-white">
+                        Unduh format .PNG
+                    </button>
+                    
+                    <button id="btnDownloadPDF" type="button" class="w-full bg-emerald-600 hover:bg-emerald-700 font-medium py-3 px-4 rounded-lg shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer text-white">
+                        Unduh format .PDF
+                    </button>
+                    
+                    <button id="btnClearForm" type="button" class="w-full bg-slate-600 hover:bg-slate-700 text-slate-200 font-medium py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2 cursor-pointer text-sm">
+                        Clear Form
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel Preview Kanan -->
+        <div class="xl:col-span-2 preview-pane p-4 rounded-xl border mobile-preview-box">
+            <div class="cert-responsive-holder">
+                <div class="cert-scale-wrapper">
+                    
+                    <div id="certificateArea" class="cert-container p-12 flex flex-col justify-between relative select-none" style="border: 16px double #78350f;">
+                        
+                        <div class="absolute -top-24 -left-24 w-64 h-64 rounded-full opacity-40" style="background-color: #f8fafc; border: 8px solid rgba(120, 53, 15, 0.1);"></div>
+                        <div class="absolute -bottom-24 -right-24 w-64 h-64 rounded-full opacity-40" style="background-color: #f8fafc; border: 8px solid rgba(120, 53, 15, 0.1);"></div>
+                        
+                        <div class="text-center mt-4">
+                            <div class="flex justify-center items-center gap-2 mb-2">
+                                <span class="h-[2px] w-12" style="background-color: #b45309;"></span>
+                                <h4 class="font-cinzel text-xs font-bold uppercase tracking-[0.4em]" style="color: #78350f;">E-Certificate of Excellence</h4>
+                                <span class="h-[2px] w-12" style="background-color: #b45309;"></span>
+                            </div>
+                            <h1 class="font-cinzel text-4xl font-bold tracking-wider" style="color: #1e293b;">SERTIFIKAT PRAKTISI DATA</h1>
+                            <p class="text-xs font-mono mt-2 tracking-widest" style="color: #64748b;">Nomor: <span id="certNomor" class="font-bold">GEN-001/11042006/13072026</span></p>
+                        </div>
+
+                        <div class="text-center my-2 max-w-3xl mx-auto space-y-3">
+                            <p class="text-sm italic font-serif" style="color: #475569;">Sertifikat ini diberikan secara resmi kepada praktisi:</p>
+                            
+                            <!-- PERBAIKAN 1: Bagian Nama -->
+                            <!-- Menggunakan flex-col untuk memisahkan teks dan elemen garis secara fisik -->
+                            <div class="flex flex-col items-center">
+                                <h2 id="certNama" class="font-cinzel text-3xl font-bold tracking-wide mb-3" style="color: #451a03; line-height: 1;">M. Rofiul Wany</h2>
+                                <!-- Elemen Garis Khusus (Bukan border) -->
+                                <div class="w-[400px] h-[1px] bg-slate-300 mb-2"></div>
+                                <p class="text-xs font-mono" style="color: #64748b;">Lahir: <span id="certTglLahir" class="font-sans font-medium" style="color: #334155;">Blora, 11 April 2006</span></p>
+                                <p id="certProfesi" class="text-xs font-mono uppercase tracking-widest font-semibold mt-1" style="color: #065f46;">Mahasiswa</p>
+                            </div>
+
+                            <p class="text-xs leading-relaxed font-serif px-10 pt-2" style="color: #475569;">
+                                Sebagai apresiasi atas dedikasi nyata dan keberhasilannya menyelesaikan rangkaian program pembelajaran jarak jauh (Online Practical Class) pada kompetensi tata kelola <strong style="color: #1e293b;">Pemodelan Data &amp; Analisis Lanjutan</strong>, dengan pendalaman materi komprehensif meliputi:
+                            </p>
+                            
+                            <div id="certSkillsArea" class="text-xs font-sans font-semibold flex flex-wrap justify-center gap-x-4 gap-y-1 text-emerald-800 max-w-2xl mx-auto px-6 italic">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 items-end text-center px-12 mb-4">
+                            <div class="text-left">
+                                <p class="text-[11px] uppercase tracking-wider font-mono" style="color: #94a3b8;">Status Kode</p>
+                                <p class="text-xs font-bold font-mono" style="color: #047857;">VERIFIED / SUCCESSFUL</p>
+                            </div>
+                            
+                            <div class="flex justify-center">
+                                <div class="w-16 h-16 rounded-full border-4 flex items-center justify-center relative" style="background-color: #fffbeb; border-color: rgba(120, 53, 15, 0.2);">
+                                    <span class="text-[8px] font-cinzel text-center font-bold leading-none" style="color: #78350f;">DATA<br>MASTER</span>
+                                </div>
+                            </div>
+                            
+                            <!-- PERBAIKAN 2: Bagian Tanda Tangan -->
+                            <!-- Menggunakan flex-col dan margin bottom besar agar ekor huruf aman -->
+                            <div class="text-right flex flex-col items-end">
+                                <p class="text-xs font-serif mb-2" style="color: #64748b;">Tangerang, 13 Juli 2026</p>
+                                <span class="font-signature text-4xl block mb-3" style="color: #78350f; font-weight: normal; line-height: 1;">ladang.gold</span>
+                                <!-- Elemen Garis Khusus (Bukan border) -->
+                                <div class="w-48 h-[1px] bg-slate-400 mb-2"></div>
+                                <p class="text-xs font-bold font-cinzel tracking-wider" style="color: #1e293b;">Instruktur Utama</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputNama = document.getElementById('inputNama');
+            const inputTglLahir = document.getElementById('inputTglLahir');
+            const inputProfesi = document.getElementById('inputProfesi');
+            const inputNomorUrut = document.getElementById('inputNomorUrut');
+            const inputCustomSkill = document.getElementById('inputCustomSkill');
+            const skillChecks = document.querySelectorAll('.skill-check');
+            
+            const certNama = document.getElementById('certNama');
+            const certTglLahir = document.getElementById('certTglLahir');
+            const certProfesi = document.getElementById('certProfesi');
+            const certNomor = document.getElementById('certNomor');
+            const certSkillsArea = document.getElementById('certSkillsArea');
+            
+            const btnDownloadPNG = document.getElementById('btnDownloadPNG');
+            const btnDownloadPDF = document.getElementById('btnDownloadPDF');
+            const btnClearForm = document.getElementById('btnClearForm');
+            const certificateArea = document.getElementById('certificateArea');
+
+            function extractDigits(str) {
+                return str.replace(/\D/g, '');
+            }
+
+            function renderCertificateState() {
+                certNama.textContent = inputNama.value || '-';
+                certTglLahir.textContent = inputTglLahir.value || '-';
+                certProfesi.textContent = inputProfesi.value || '-';
+
+                const urut = inputNomorUrut.value.padStart(3, '0') || '000';
+                
+                let dobDigits = extractDigits(inputTglLahir.value);
+                if (!dobDigits) dobDigits = '000000';
+                
+                const today = new Date();
+                const d = String(today.getDate()).padStart(2, '0');
+                const m = String(today.getMonth() + 1).padStart(2, '0');
+                const y = today.getFullYear();
+                const todayDigits = `${d}${m}${y}`;
+
+                certNomor.textContent = `GEN-${urut}/${dobDigits}/${todayDigits}`;
+
+                let selectedSkills = [];
+                skillChecks.forEach(cb => {
+                    if (cb.checked) selectedSkills.push(cb.value);
+                });
+                
+                if (inputCustomSkill.value.trim() !== '') {
+                    selectedSkills.push(inputCustomSkill.value.trim());
+                }
+
+                if (selectedSkills.length > 0) {
+                    certSkillsArea.innerHTML = selectedSkills.map(s => `<span>• ${s}</span>`).join(' ');
+                } else {
+                    certSkillsArea.innerHTML = '<span class="text-slate-400 font-normal">Belum ada kompetensi dipilih</span>';
+                }
+            }
+
+            inputNama.addEventListener('input', renderCertificateState);
+            inputTglLahir.addEventListener('input', renderCertificateState);
+            inputProfesi.addEventListener('input', renderCertificateState);
+            inputNomorUrut.addEventListener('input', renderCertificateState);
+            inputCustomSkill.addEventListener('input', renderCertificateState);
+            skillChecks.forEach(cb => cb.addEventListener('change', renderCertificateState));
+
+            btnClearForm.addEventListener('click', function() {
+                inputNama.value = '';
+                inputTglLahir.value = '';
+                inputProfesi.value = '';
+                inputNomorUrut.value = '001';
+                inputCustomSkill.value = '';
+                skillChecks.forEach(cb => cb.checked = false);
+                renderCertificateState();
+            });
+
+            async function generateCanvas() {
+                await document.fonts.ready;
+                
+                const clone = certificateArea.cloneNode(true);
+                const wrapper = document.createElement('div');
+                wrapper.style.position = 'absolute';
+                wrapper.style.top = '-9999px';
+                wrapper.style.left = '-9999px';
+                wrapper.appendChild(clone);
+                document.body.appendChild(wrapper);
+
+                const canvas = await html2canvas(clone, {
+                    scale: 2, 
+                    useCORS: true,
+                    backgroundColor: '#ffffff',
+                    width: 1123,
+                    height: 794
+                });
+
+                document.body.removeChild(wrapper);
+                return canvas;
+            }
+
+            btnDownloadPNG.addEventListener('click', async function(e) {
+                e.preventDefault();
+                const btnText = this.innerHTML;
+                this.innerHTML = 'Memproses PNG...';
+                
+                try {
+                    const canvas = await generateCanvas();
+                    const imgData = canvas.toDataURL('image/png');
+                    
+                    const link = document.createElement('a');
+                    const fileName = inputNama.value ? inputNama.value.replace(/\s+/g, '_') : 'Sertifikat';
+                    link.download = `Sertifikat_${fileName}.png`;
+                    link.href = imgData;
+                    link.click();
+                } catch (error) {
+                    console.error("Error generating PNG:", error);
+                    alert("Terjadi kesalahan saat membuat PNG");
+                }
+                
+                this.innerHTML = btnText;
+            });
+
+            btnDownloadPDF.addEventListener('click', async function(e) {
+                e.preventDefault();
+                const btnText = this.innerHTML;
+                this.innerHTML = 'Memproses PDF...';
+                
+                try {
+                    const canvas = await generateCanvas();
+                    const imgData = canvas.toDataURL('image/png');
+                    
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF('landscape', 'mm', 'a4');
+                    
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = pdf.internal.pageSize.getHeight();
+                    
+                    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                    
+                    const fileName = inputNama.value ? inputNama.value.replace(/\s+/g, '_') : 'Sertifikat';
+                    pdf.save(`Sertifikat_${fileName}.pdf`);
+                } catch (error) {
+                    console.error("Error generating PDF:", error);
+                    alert("Terjadi kesalahan saat membuat PDF");
+                }
+                
+                this.innerHTML = btnText;
+            });
+
+            renderCertificateState();
+        });
+    </script>
+</body>
+</html>
