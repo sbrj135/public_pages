@@ -95,6 +95,39 @@
             100% { transform: translate(150px, 150px) rotate(45deg); opacity: 0; }
         }
 
+        /* --- EFEK 3D TERANG, GLOW EMAS & BORDER ANIMASI 3 WARNA (BIRU, ORANGE, HIJAU) TIAP FRAME --- */
+        @keyframes borderThreeColors {
+            0% {
+                border-color: #0078D4; /* Biru */
+                box-shadow: 0 12px 35px -5px rgba(255, 215, 0, 0.5), 0 0 25px rgba(0, 120, 212, 0.4), inset 0 1px 0 rgba(255,255,255,0.8);
+            }
+            33% {
+                border-color: #F97316; /* Orange */
+                box-shadow: 0 12px 35px -5px rgba(255, 215, 0, 0.7), 0 0 25px rgba(249, 115, 22, 0.4), inset 0 1px 0 rgba(255,255,255,0.8);
+            }
+            66% {
+                border-color: #10B981; /* Hijau */
+                box-shadow: 0 12px 35px -5px rgba(255, 215, 0, 0.5), 0 0 25px rgba(16, 185, 129, 0.4), inset 0 1px 0 rgba(255,255,255,0.8);
+            }
+            100% {
+                border-color: #0078D4; /* Kembali ke Biru */
+                box-shadow: 0 12px 35px -5px rgba(255, 215, 0, 0.5), 0 0 25px rgba(0, 120, 212, 0.4), inset 0 1px 0 rgba(255,255,255,0.8);
+            }
+        }
+
+        /* Menerapkan efek 3D terang & border animasi 3 warna ke semua elemen frame/section utama */
+        section, header {
+            border-width: 2px !important;
+            animation: borderThreeColors 8s linear infinite;
+            transform: perspective(1000px) translateZ(0);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+        }
+
+        section:hover, header:hover {
+            transform: perspective(1000px) translateY(-4px) translateZ(15px);
+            box-shadow: 0 20px 45px -10px rgba(255, 215, 0, 0.8), 0 0 35px rgba(0, 120, 212, 0.35);
+        }
+
         /* --- POLESAN CSS EYE-CATCHING TAMBAHAN --- */
         label.cursor-pointer {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -110,19 +143,19 @@
             animation: buttonPulse 2s infinite;
         }
         @keyframes buttonPulse {
-            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
-            70% { box-shadow: 0 0 0 12px rgba(37, 211, 102, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6), 0 0 20px rgba(255, 215, 0, 0.5); }
+            70% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0), 0 0 30px rgba(255, 215, 0, 0.8); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0), 0 0 20px rgba(255, 215, 0, 0.5); }
         }
 
         #price-box {
-            background: linear-gradient(to bottom, #ffffff, #f8fafc);
-            box-shadow: 0 4px 20px -2px rgba(242, 200, 17, 0.25);
-            border: 2px solid rgba(242, 200, 17, 0.6);
+            background: linear-gradient(to bottom, #ffffff, #fffbeb);
+            box-shadow: 0 8px 25px -2px rgba(242, 200, 17, 0.4), inset 0 0 10px rgba(255, 215, 0, 0.2);
+            border: 2px solid #F2C811;
             transition: transform 0.3s ease;
         }
         #price-box:hover {
-            transform: scale(1.02);
+            transform: scale(1.03) translateZ(10px);
         }
 
         ::-webkit-scrollbar {
@@ -176,7 +209,7 @@
 
     <!-- MAIN CONTENT KONTANER (Z-INDEX TINGGI AGAR TIDAK TERTUTUP ANIMASI) -->
     <div class="relative z-10">
-        <header class="bg-white/90 backdrop-blur-sm border-b border-gray-200 py-16 px-4 text-center shadow-sm relative overflow-hidden">
+        <header class="bg-white/90 backdrop-blur-sm border border-gray-200 py-16 px-4 text-center shadow-sm relative overflow-hidden rounded-2xl max-w-3xl mx-auto my-6">
             <div class="absolute top-0 left-0 w-full h-1 bg-pbi-yellow"></div>
             <div class="absolute -top-24 -right-24 w-64 h-64 bg-yellow-50 rounded-full blur-3xl opacity-60 z-[-1]"></div>
             <div class="absolute top-10 -left-10 w-40 h-40 bg-blue-50 rounded-full blur-2xl opacity-60 z-[-1]"></div>
@@ -205,7 +238,7 @@
             </div>
         </header>
 
-        <main class="max-w-3xl mx-auto px-4 py-12">
+        <main class="max-w-3xl mx-auto px-4 py-6">
             
             <!-- SECTION PRAKATA (MENGAPA HARUS UPSKILL) -->
             <section class="mb-10 bg-white/95 backdrop-blur-sm border border-gray-200 shadow-sm rounded-2xl p-6 md:p-8 fade-in-up" style="animation-delay: 0.1s;">
@@ -271,7 +304,7 @@
             </section>
 
             <!-- FORM CEKLIS MATERI -->
-            <section class="mb-10 fade-in-up" style="animation-delay: 0.3s;">
+            <section class="mb-10 bg-white/95 backdrop-blur-sm border border-gray-200 shadow-sm rounded-2xl p-6 md:p-8 fade-in-up" style="animation-delay: 0.3s;">
                 <div class="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-2">
                     <h2 class="text-lg font-bold text-gray-900 tracking-wider flex items-center gap-2">
                         <span class="text-pbi-yellow text-xl">⚡</span> PILIH MATERI INTI ANDA:
@@ -279,7 +312,7 @@
                     <span class="text-xs bg-blue-50 text-ms-blue px-3 py-1 rounded-full font-medium border border-blue-100">Pilih 1 atau lebih materi</span>
                 </div>
                 
-                <div class="bg-white/95 backdrop-blur-sm border border-gray-200 rounded-2xl shadow-sm p-4 md:p-6 space-y-3">
+                <div class="space-y-3">
                     
                     <label class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-gray-200 cursor-pointer">
                         <div class="flex items-center h-full pt-1.5">
