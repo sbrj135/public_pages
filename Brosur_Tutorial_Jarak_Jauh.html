@@ -6,186 +6,210 @@
     <title>Brosur Penawaran Tutorial Jarak Jauh - Ladang Gold</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Cinzel:wght@600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .font-cinzel { font-family: 'Cinzel', serif; }
-
-        /* ANIMASI 1: Gradien Teks Bergerak */
-        .animate-gradient-text {
-            background: linear-gradient(to right, #34d399, #60a5fa, #a78bfa, #34d399);
-            background-size: 300% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradientMovement 4s linear infinite;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        body { 
+            font-family: 'Segoe UI', 'Inter', system-ui, sans-serif; 
+            /* Subtle background typical of SaaS dashboards */
+            background-color: #FAFAFA;
         }
 
-        @keyframes gradientMovement {
-            0% { background-position: 0% center; }
-            100% { background-position: 300% center; }
+        /* Power BI Brand Colors */
+        .text-pbi-yellow { color: #E8B600; }
+        .bg-pbi-yellow { background-color: #F2C811; }
+        .border-pbi-yellow { border-color: #F2C811; }
+        
+        .text-ms-blue { color: #0078D4; }
+        .bg-ms-blue { background-color: #0078D4; }
+        
+        /* Subtle fade-in animation for a professional touch */
+        .fade-in-up {
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(20px);
         }
-
-        /* ANIMASI 2: Efek Ketik Otomatis (Typing Effect CSS) */
-        .typing-effect {
-            display: inline-block;
-            white-space: nowrap;
-            overflow: hidden;
-            border-right: 3px solid #10b981;
-            animation: typing 3.5s steps(30, end) infinite alternate, blink 0.75s step-end infinite;
-        }
-
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-
-        @keyframes blink {
-            from, to { border-color: transparent }
-            50% { border-color: #10b981; }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen antialiased">
+<body class="text-gray-800 antialiased selection:bg-[#F2C811] selection:text-black">
 
-    <header class="relative overflow-hidden bg-slate-950 border-b border-slate-800 py-20 px-4 text-center">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-emerald-500/10 via-transparent to-transparent"></div>
-        <div class="max-w-3xl mx-auto relative z-10">
-            <span class="inline-block px-3 py-1 text-xs font-semibold tracking-wider text-emerald-400 bg-emerald-500/10 rounded-full mb-4 uppercase">Eksklusif Jarak Jauh (1-on-1)</span>
+    <!-- HEADER / HERO SECTION -->
+    <header class="bg-white border-b border-gray-200 py-16 px-4 text-center shadow-sm relative overflow-hidden">
+        <!-- Dekorasi latar belakang subtle -->
+        <div class="absolute top-0 left-0 w-full h-1 bg-pbi-yellow"></div>
+        <div class="absolute -top-24 -right-24 w-64 h-64 bg-yellow-50 rounded-full blur-3xl opacity-60"></div>
+        <div class="absolute top-10 -left-10 w-40 h-40 bg-blue-50 rounded-full blur-2xl opacity-60"></div>
+
+        <div class="max-w-3xl mx-auto relative z-10 fade-in-up">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold tracking-wide text-ms-blue bg-blue-50 border border-blue-100 rounded-md mb-6 uppercase">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zM9 5h2v6H9V5zm0 8h2v2H9v-2z"></path></svg>
+                Eksklusif Jarak Jauh (1-on-1)
+            </span>
             
-            <h1 class="font-cinzel text-4xl md:text-6xl font-bold tracking-widest mb-2 animate-gradient-text">
-                LADANG GOLD
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
+                LADANG <span class="text-pbi-yellow">GOLD</span>
             </h1>
             
-            <div class="h-10 my-2 flex justify-center items-center">
-                <p class="text-lg md:text-xl font-mono text-emerald-400 font-semibold tracking-wide border-slate-800 typing-effect">
-                    &gt;_ Private Class Terarah
-                </p>
-            </div>
+            <h2 class="text-lg md:text-xl font-semibold text-gray-700 max-w-2xl mx-auto mb-2">
+                Program Akselerasi Keahlian: <span class="text-gray-900">Pemodelan Data & Analisis Lanjutan</span>
+            </h2>
 
-            <p class="text-xl md:text-2xl font-light text-slate-300 max-w-2xl mx-auto leading-relaxed mt-4">
-                Program Akselerasi Keahlian: <span class="text-white font-medium">Pemodelan Data & Analisis Lanjutan</span>
-            </p>
-            <p class="text-sm text-slate-400 mt-4 max-w-lg mx-auto">
-                Metode belajar privat interaktif via <span class="text-sky-400 font-semibold">TeamViewer Remote Desktop</span>. Langsung praktik di komputer Anda!
+            <p class="text-sm md:text-base text-gray-500 max-w-lg mx-auto mt-4">
+                Metode belajar privat interaktif via <span class="text-ms-blue font-semibold">TeamViewer</span>. Langsung praktik pemecahan masalah data di komputer Anda sendiri.
             </p>
         </div>
     </header>
 
-    <main class="max-w-3xl mx-auto px-4 py-12">
+    <main class="max-w-3xl mx-auto px-4 py-10 space-y-8">
         
-        <section class="mb-10 bg-slate-800/40 border border-slate-800 rounded-2xl p-6">
-            <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                <span class="p-1.5 bg-emerald-500/20 text-emerald-400 rounded-lg">🖥️</span> 
+        <!-- SECTION: SISTEM BELAJAR -->
+        <section class="bg-white border border-gray-200 shadow-sm rounded-xl p-6 fade-in-up" style="animation-delay: 0.1s;">
+            <h2 class="text-lg font-bold text-gray-900 mb-5 flex items-center gap-2 pb-2 border-b border-gray-100">
+                <svg class="w-5 h-5 text-pbi-yellow" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
                 Sistem Belajar Langsung Praktik
             </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-300">
-                <div class="p-4 bg-slate-900/50 border border-slate-800 rounded-xl">
-                    <h3 class="font-semibold text-white mb-1">💯 100% Kerja Nyata</h3>
-                    <p>Instruktur mengontrol langsung di layar monitor Anda, menyelesaikan masalah data riil tanpa teori berbelit.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div class="p-4 bg-gray-50 border border-gray-100 rounded-lg hover:border-gray-200 transition-colors">
+                    <h3 class="font-semibold text-gray-900 mb-1 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                        100% Kerja Nyata
+                    </h3>
+                    <p class="text-gray-600 mt-1 leading-relaxed">Instruktur memandu langsung di layar monitor Anda, menyelesaikan studi kasus riil tanpa teori berbelit.</p>
                 </div>
-                <div class="p-4 bg-slate-900/50 border border-slate-800 rounded-xl">
-                    <h3 class="font-semibold text-white mb-1">⏱️ Waktu Fleksibel</h3>
-                    <p>Jadwal fleksibel (bisa malam/weekend) yang disesuaikan penuh dengan waktu luang mahasiswa ataupun profesional.</p>
+                <div class="p-4 bg-gray-50 border border-gray-100 rounded-lg hover:border-gray-200 transition-colors">
+                    <h3 class="font-semibold text-gray-900 mb-1 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-ms-blue" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path></svg>
+                        Waktu Fleksibel
+                    </h3>
+                    <p class="text-gray-600 mt-1 leading-relaxed">Jadwal bisa disesuaikan (malam/weekend) menyesuaikan waktu luang profesional atau mahasiswa.</p>
                 </div>
             </div>
         </section>
 
-        <section class="mb-10">
-            <h2 class="text-xl font-bold text-white mb-6 font-cinzel tracking-wider flex items-center gap-2">
-                <span class="text-emerald-400">⚡</span> LISTING MATERI INTI YANG DIPELAJARI:
+        <!-- SECTION: MATERI INTI (List ala Tabel Power BI) -->
+        <section class="fade-in-up" style="animation-delay: 0.2s;">
+            <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+                Modul Pembelajaran Utama
             </h2>
             
-            <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 md:p-8 space-y-4">
-                <div class="flex items-start gap-4 p-3 hover:bg-slate-900/50 rounded-xl transition-all">
-                    <span class="text-xl bg-emerald-500/10 text-emerald-400 p-2 rounded-lg font-mono font-bold">01</span>
+            <div class="bg-white border border-gray-200 shadow-sm rounded-xl overflow-hidden divide-y divide-gray-100">
+                
+                <!-- Item 1 -->
+                <div class="flex items-start gap-4 p-4 hover:bg-gray-50 transition-colors">
+                    <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-[#F2C811]/10 text-yellow-700 font-bold rounded text-sm">01</div>
                     <div>
-                        <h3 class="font-bold text-white text-base">Engine Power Query & M-Language</h3>
-                        <p class="text-xs text-slate-400 mt-0.5">Ekstraksi data lintas sektoral, transformasi data berantakan, serta optimasi Query Folding.</p>
+                        <h3 class="font-semibold text-gray-900">Engine Power Query & M-Language</h3>
+                        <p class="text-sm text-gray-500 mt-1">Ekstraksi data lintas sektoral, transformasi data berantakan, serta optimasi Query Folding.</p>
                     </div>
                 </div>
 
-                <div class="flex items-start gap-4 p-3 hover:bg-slate-900/50 rounded-xl transition-all">
-                    <span class="text-xl bg-emerald-500/10 text-emerald-400 p-2 rounded-lg font-mono font-bold">02</span>
+                <!-- Item 2 -->
+                <div class="flex items-start gap-4 p-4 hover:bg-gray-50 transition-colors">
+                    <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-[#F2C811]/10 text-yellow-700 font-bold rounded text-sm">02</div>
                     <div>
-                        <h3 class="font-bold text-white text-base">Arsitektur Data Model & Skalabilitas</h3>
-                        <p class="text-xs text-slate-400 mt-0.5">Penyusunan skema database yang efisien dan bersih (Star Schema / Snowflake).</p>
+                        <h3 class="font-semibold text-gray-900">Arsitektur Data Model & Skalabilitas</h3>
+                        <p class="text-sm text-gray-500 mt-1">Penyusunan skema database yang efisien dan bersih (Star Schema / Snowflake).</p>
                     </div>
                 </div>
 
-                <div class="flex items-start gap-4 p-3 hover:bg-slate-900/50 rounded-xl transition-all">
-                    <span class="text-xl bg-emerald-500/10 text-emerald-400 p-2 rounded-lg font-mono font-bold">03</span>
+                <!-- Item 3 -->
+                <div class="flex items-start gap-4 p-4 hover:bg-gray-50 transition-colors">
+                    <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-[#F2C811]/10 text-yellow-700 font-bold rounded text-sm">03</div>
                     <div>
-                        <h3 class="font-bold text-white text-base">Optimasi Relasi Power Pivot</h3>
-                        <p class="text-xs text-slate-400 mt-0.5">Koneksi presisi antar tabel fakta dan dimensi sebagai pondasi utama interactive dashboard.</p>
+                        <h3 class="font-semibold text-gray-900">Optimasi Relasi Power Pivot</h3>
+                        <p class="text-sm text-gray-500 mt-1">Koneksi presisi antar tabel fakta dan dimensi sebagai pondasi utama interactive dashboard.</p>
                     </div>
                 </div>
 
-                <div class="flex items-start gap-4 p-3 hover:bg-slate-900/50 rounded-xl transition-all">
-                    <span class="text-xl bg-emerald-500/10 text-emerald-400 p-2 rounded-lg font-mono font-bold">04</span>
+                <!-- Item 4 -->
+                <div class="flex items-start gap-4 p-4 hover:bg-gray-50 transition-colors">
+                    <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-[#F2C811]/10 text-yellow-700 font-bold rounded text-sm">04</div>
                     <div>
-                        <h3 class="font-bold text-white text-base">Kalkulasi Tingkat Lanjut via Rumus DAX</h3>
-                        <p class="text-xs text-slate-400 mt-0.5">Penguasaan formula analisis bisnis cerdas (Time Intelligence, Filter Context, Rumus Measure, YTD, dsb).</p>
+                        <h3 class="font-semibold text-gray-900">Kalkulasi Tingkat Lanjut via Rumus DAX</h3>
+                        <p class="text-sm text-gray-500 mt-1">Penguasaan formula analisis bisnis cerdas (Time Intelligence, Filter Context, Rumus Measure, YTD, dsb).</p>
                     </div>
                 </div>
 
-                <div class="flex items-start gap-4 p-3 hover:bg-slate-900/50 rounded-xl transition-all">
-                    <span class="text-xl bg-emerald-500/10 text-emerald-400 p-2 rounded-lg font-mono font-bold">05</span>
+                <!-- Item 5 -->
+                <div class="flex items-start gap-4 p-4 hover:bg-gray-50 transition-colors">
+                    <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-blue-50 text-ms-blue font-bold rounded text-sm">05</div>
                     <div>
-                        <h3 class="font-bold text-white text-base">Manipulasi Eksponensial Python Pandas</h3>
-                        <p class="text-xs text-slate-400 mt-0.5">Integrasi skrip Python ke dalam ekosistem olah data untuk pembersihan ekstrem dan aggregasi kilat.</p>
+                        <h3 class="font-semibold text-gray-900">Manipulasi Data dengan Python Pandas</h3>
+                        <p class="text-sm text-gray-500 mt-1">Integrasi skrip Python ke dalam ekosistem olah data untuk pembersihan ekstrem dan aggregasi kilat.</p>
                     </div>
                 </div>
+
             </div>
         </section>
 
-        <section class="mb-12 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-6 text-center">
-            <p class="text-xs text-emerald-400 font-semibold tracking-widest uppercase mb-1">Investasi Pengetahuan</p>
-            <h2 class="text-xl font-bold text-white mb-4">KISARAN BIAYA INVESTASI</h2>
-            
-            <div class="inline-block bg-slate-950 border border-emerald-500/20 px-8 py-4 rounded-2xl shadow-inner mb-3">
-                <span class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-                    Rp 150.000 <span class="text-sm font-normal text-slate-400">s/d</span> Rp 250.000
-                </span>
-                <span class="block text-xs text-slate-400 font-mono mt-1">Per Sesi Pembelajaran Privat</span>
+        <!-- SECTION: BIAYA & BENEFIT -->
+        <section class="grid md:grid-cols-3 gap-4 fade-in-up" style="animation-delay: 0.3s;">
+            <!-- Harga -->
+            <div class="md:col-span-2 bg-gradient-to-br from-white to-gray-50 border border-gray-200 shadow-sm rounded-xl p-6 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-2 h-full bg-pbi-yellow"></div>
+                <p class="text-xs font-bold text-gray-500 tracking-wider uppercase mb-1">Investasi Pembelajaran</p>
+                <h2 class="text-xl font-bold text-gray-900 mb-4">Biaya Fleksibel & Terjangkau</h2>
+                
+                <div class="flex items-baseline gap-2 mb-2">
+                    <span class="text-2xl md:text-3xl font-extrabold text-gray-900">Rp 150.000</span>
+                    <span class="text-gray-500 font-medium">s/d</span>
+                    <span class="text-2xl md:text-3xl font-extrabold text-gray-900">Rp 250.000</span>
+                </div>
+                <p class="text-sm font-medium text-ms-blue mb-4">/ Sesi Pembelajaran Privat</p>
+                
+                <p class="text-xs text-gray-500 leading-relaxed border-t border-gray-200 pt-4">
+                    *Biaya disesuaikan dengan tingkat kerumitan studi kasus, tugas, atau proyek riil perusahaan yang ingin Anda bedah selama sesi remote berlangsung.
+                </p>
             </div>
-            
-            <p class="text-xs text-slate-400 max-w-md mx-auto leading-relaxed">
-                *Biaya bersifat fleksibel disesuaikan dengan tingkat kerumitan studi kasus/tugas/proyek riil yang ingin Anda bedah selama sesi remote berlangsung.
-            </p>
+
+            <!-- Benefit Box -->
+            <div class="bg-gray-900 text-white shadow-sm rounded-xl p-6 flex flex-col justify-center">
+                <h3 class="text-sm font-semibold mb-4 text-gray-300 uppercase tracking-wider">Nilai Tambah</h3>
+                <ul class="space-y-3 text-sm">
+                    <li class="flex items-center gap-2">
+                        <svg class="w-5 h-5 text-pbi-yellow" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        Dataset Riil Industri
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg class="w-5 h-5 text-pbi-yellow" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        Konsultasi Kasus Kerja
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg class="w-5 h-5 text-pbi-yellow" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        E-Sertifikat Resmi
+                    </li>
+                </ul>
+            </div>
         </section>
 
-        <section class="mb-10 border border-slate-800/60 rounded-2xl p-5 bg-slate-950/40 text-sm">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-center md:text-left text-slate-300">
-                <div class="flex items-center gap-2 justify-center md:justify-start">
-                    <span class="text-emerald-400 font-bold">✔</span> Dataset Riil Industri
-                </div>
-                <div class="flex items-center gap-2 justify-center md:justify-start">
-                    <span class="text-emerald-400 font-bold">✔</span> Konsultasi Kasus Kerja
-                </div>
-                <div class="flex items-center gap-2 justify-center md:justify-start">
-                    <span class="text-emerald-400 font-bold">✔</span> E-Sertifikat Resmi
-                </div>
-            </div>
-        </section>
-
-        <section class="text-center bg-gradient-to-br from-emerald-600/20 to-teal-600/10 border border-emerald-500/30 rounded-2xl p-8">
-            <h2 class="text-xl font-bold text-white mb-1">Amankan Slot Konsultasi Anda</h2>
-            <p class="text-xs text-slate-400 mb-6">Kuota bimbingan privat mingguan sangat terbatas.</p>
+        <!-- CALL TO ACTION (CTA) -->
+        <section class="text-center bg-blue-50 border border-blue-100 rounded-xl p-8 mt-6 fade-in-up" style="animation-delay: 0.4s;">
+            <h2 class="text-xl font-bold text-gray-900 mb-2">Amankan Slot Konsultasi Anda</h2>
+            <p class="text-sm text-gray-600 mb-6">Kuota bimbingan privat mingguan sangat terbatas untuk menjaga kualitas pengajaran.</p>
             
             <a href="https://wa.me/6285943415269?text=Halo%20Ladang%20Gold,%20saya%20tertarik%20dengan%20Tutorial%20Jarak%20Jauh%20Pemodelan%20Data" 
-               class="inline-flex items-center gap-3 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3.5 px-8 rounded-xl shadow-lg shadow-emerald-900/30 transition-all transform hover:-translate-y-0.5">
+               class="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1DA851] text-white font-medium py-3 px-8 rounded-lg shadow-sm transition-all focus:ring-4 focus:ring-green-100">
                 <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
                     <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.455L0 24zm6.59-4.846c1.62.962 3.377 1.47 5.357 1.471 5.43.002 9.85-4.415 9.853-9.845.002-2.63-1.023-5.101-2.887-6.964C17.052 1.892 14.58 1.861 11.957 1.86c-5.432 0-9.855 4.415-9.858 9.845-.001 1.959.514 3.876 1.492 5.547l-.991 3.621 3.701-.971zM17.52 14.33c-.302-.15-1.786-.882-2.057-.981-.271-.1-.469-.149-.667.149-.198.299-.767.981-.94 1.179-.173.199-.347.223-.649.074-.302-.15-1.274-.469-2.427-1.496-.897-.801-1.502-1.792-1.678-2.091-.176-.302-.019-.465.132-.614.136-.134.302-.352.453-.529.151-.177.201-.299.302-.497.101-.199.05-.373-.025-.523-.075-.149-.667-1.611-.913-2.203-.24-.579-.485-.501-.667-.51l-.571-.01c-.198 0-.52.074-.792.372-.272.299-1.04 1.018-1.04 2.483 0 1.464 1.064 2.88 1.213 3.079.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.786-.731 2.034-1.402.248-.671.248-1.242.173-1.36-.074-.119-.272-.198-.57-.347z"/>
                 </svg>
-                Hubungi WhatsApp (Ladang Gold)
+                Hubungi WhatsApp Kami
             </a>
             
-            <p class="text-xs text-slate-500 mt-3">Nomor Kontak: 085943415269</p>
+            <p class="text-xs text-gray-500 mt-4">Hotline: 0859-4341-5269</p>
         </section>
 
     </main>
 
-    <footer class="text-center py-8 text-xs text-slate-600 border-t border-slate-950 bg-slate-950 mt-12">
-        <p>&copy; 2026 Ladang Gold. All rights reserved. TeamViewer adalah merek dagang dari TeamViewer Germany.</p>
+    <footer class="text-center py-10 text-xs text-gray-500 mt-8">
+        <p>&copy; 2026 Ladang Gold. All rights reserved.</p>
+        <p class="mt-1 opacity-70">TeamViewer adalah merek dagang dari TeamViewer Germany. Microsoft, Power BI, dan Power Query adalah merek dagang terdaftar dari Microsoft Corporation.</p>
     </footer>
 
 </body>
