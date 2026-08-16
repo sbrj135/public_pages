@@ -36,14 +36,23 @@
 
         /* --- TAMBAHAN ANIMASI BACKGROUND & TEKS --- */
         
-        /* Animasi Teks Shrink (Mengecil lalu kembali normal) */
+        /* Animasi Teks Shrink & Gradien Mengalir */
         .anim-shrink-text {
             display: inline-block;
-            animation: shrinkText 4s ease-in-out infinite;
+            background: linear-gradient(135deg, #0078D4 0%, #10b981 50%, #E8B600 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shrinkText 4s ease-in-out infinite, gradientFlow 6s linear infinite;
         }
         @keyframes shrinkText {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(0.92); }
+        }
+        @keyframes gradientFlow {
+            0% { background-position: 0% center; }
+            50% { background-position: 100% center; }
+            100% { background-position: 0% center; }
         }
 
         /* Animasi Ikon Latar Belakang */
@@ -84,6 +93,50 @@
             30% { opacity: 1; }
             70% { opacity: 1; }
             100% { transform: translate(150px, 150px) rotate(45deg); opacity: 0; }
+        }
+
+        /* --- POLESAN CSS EYE-CATCHING TAMBAHAN --- */
+        label.cursor-pointer {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        label.cursor-pointer:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -5px rgba(0, 120, 212, 0.15), 0 8px 10px -6px rgba(0, 120, 212, 0.1);
+            border-color: #0078D4 !important;
+            background-color: #f0f7ff !important;
+        }
+
+        #wa-link:not(.opacity-75) {
+            animation: buttonPulse 2s infinite;
+        }
+        @keyframes buttonPulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
+            70% { box-shadow: 0 0 0 12px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        #price-box {
+            background: linear-gradient(to bottom, #ffffff, #f8fafc);
+            box-shadow: 0 4px 20px -2px rgba(242, 200, 17, 0.25);
+            border: 2px solid rgba(242, 200, 17, 0.6);
+            transition: transform 0.3s ease;
+        }
+        #price-box:hover {
+            transform: scale(1.02);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAFAFA;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
         }
     </style>
 </head>
