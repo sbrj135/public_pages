@@ -95,69 +95,34 @@
             100% { transform: translate(150px, 150px) rotate(45deg); opacity: 0; }
         }
 
-        /* --- EFEK 3D, GLOW EMAS & BORDER ANIMASI 3 WARNA (BIRU, ORANGE, HIJAU) --- */
-        
-        @keyframes borderThreeColors {
-            0% {
-                border-color: #0078D4; /* Biru */
-                box-shadow: 0 10px 30px -5px rgba(255, 215, 0, 0.4), 0 0 20px rgba(0, 120, 212, 0.4), inset 0 1px 0 rgba(255,255,255,0.6);
-            }
-            33% {
-                border-color: #F97316; /* Orange */
-                box-shadow: 0 10px 30px -5px rgba(255, 215, 0, 0.6), 0 0 20px rgba(249, 115, 22, 0.4), inset 0 1px 0 rgba(255,255,255,0.6);
-            }
-            66% {
-                border-color: #10B981; /* Hijau */
-                box-shadow: 0 10px 30px -5px rgba(255, 215, 0, 0.4), 0 0 20px rgba(16, 185, 129, 0.4), inset 0 1px 0 rgba(255,255,255,0.6);
-            }
-            100% {
-                border-color: #0078D4; /* Kembali ke Biru */
-                box-shadow: 0 10px 30px -5px rgba(255, 215, 0, 0.4), 0 0 20px rgba(0, 120, 212, 0.4), inset 0 1px 0 rgba(255,255,255,0.6);
-            }
-        }
-
-        /* Menerapkan efek 3D terang, glow emas, dan border animasi pada semua frame/section utama */
-        section.bg-white\/95, header.bg-white\/90 {
-            border-width: 2px;
-            animation: borderThreeColors 8s linear infinite;
-            transform: perspective(1000px) translateZ(0);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
-        }
-
-        section.bg-white\/95:hover, header.bg-white\/90:hover {
-            transform: perspective(1000px) translateY(-5px) translateZ(15px);
-            box-shadow: 0 20px 40px -10px rgba(255, 215, 0, 0.6), 0 0 30px rgba(0, 120, 212, 0.3);
-        }
-
-        /* Efek khusus untuk card pilihan materi di dalam frame */
+        /* --- POLESAN CSS EYE-CATCHING TAMBAHAN --- */
         label.cursor-pointer {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid #e5e7eb;
         }
         label.cursor-pointer:hover {
-            transform: translateY(-3px) scale(1.01);
-            box-shadow: 0 10px 25px -5px rgba(255, 215, 0, 0.3), 0 5px 15px -3px rgba(0, 120, 212, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -5px rgba(0, 120, 212, 0.15), 0 8px 10px -6px rgba(0, 120, 212, 0.1);
             border-color: #0078D4 !important;
-            background-color: #fefce8 !important;
+            background-color: #f0f7ff !important;
         }
 
         #wa-link:not(.opacity-75) {
             animation: buttonPulse 2s infinite;
         }
         @keyframes buttonPulse {
-            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6), 0 0 20px rgba(255, 215, 0, 0.5); }
-            70% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0), 0 0 30px rgba(255, 215, 0, 0.8); }
-            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0), 0 0 20px rgba(255, 215, 0, 0.5); }
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
+            70% { box-shadow: 0 0 0 12px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
 
         #price-box {
-            background: linear-gradient(to bottom, #ffffff, #fffbeb);
-            box-shadow: 0 8px 25px -2px rgba(242, 200, 17, 0.4), inset 0 0 10px rgba(255, 215, 0, 0.2);
-            border: 2px solid #F2C811;
+            background: linear-gradient(to bottom, #ffffff, #f8fafc);
+            box-shadow: 0 4px 20px -2px rgba(242, 200, 17, 0.25);
+            border: 2px solid rgba(242, 200, 17, 0.6);
             transition: transform 0.3s ease;
         }
         #price-box:hover {
-            transform: scale(1.03) translateZ(10px);
+            transform: scale(1.02);
         }
 
         ::-webkit-scrollbar {
@@ -211,7 +176,7 @@
 
     <!-- MAIN CONTENT KONTANER (Z-INDEX TINGGI AGAR TIDAK TERTUTUP ANIMASI) -->
     <div class="relative z-10">
-        <header class="bg-white/90 backdrop-blur-sm border border-gray-200 py-16 px-4 text-center shadow-sm relative overflow-hidden rounded-3xl max-w-3xl mx-auto my-6">
+        <header class="bg-white/90 backdrop-blur-sm border-b border-gray-200 py-16 px-4 text-center shadow-sm relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-pbi-yellow"></div>
             <div class="absolute -top-24 -right-24 w-64 h-64 bg-yellow-50 rounded-full blur-3xl opacity-60 z-[-1]"></div>
             <div class="absolute top-10 -left-10 w-40 h-40 bg-blue-50 rounded-full blur-2xl opacity-60 z-[-1]"></div>
@@ -240,10 +205,10 @@
             </div>
         </header>
 
-        <main class="max-w-3xl mx-auto px-4 py-6">
+        <main class="max-w-3xl mx-auto px-4 py-12">
             
             <!-- SECTION PRAKATA (MENGAPA HARUS UPSKILL) -->
-            <section class="mb-10 bg-white/95 backdrop-blur-sm border border-gray-200 shadow-sm rounded-3xl p-6 md:p-8 fade-in-up" style="animation-delay: 0.1s;">
+            <section class="mb-10 bg-white/95 backdrop-blur-sm border border-gray-200 shadow-sm rounded-2xl p-6 md:p-8 fade-in-up" style="animation-delay: 0.1s;">
                 <h2 class="text-xl md:text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2 border-b border-gray-100 pb-4">
                     <span class="text-2xl">🚀</span> Mengapa "Jago Excel Saja" Tidak Lagi Cukup?
                 </h2>
@@ -288,7 +253,7 @@
                 </div>
             </section>
 
-            <section class="mb-10 bg-white/95 backdrop-blur-sm border border-gray-200 shadow-sm rounded-3xl p-6 fade-in-up" style="animation-delay: 0.2s;">
+            <section class="mb-10 bg-white/95 backdrop-blur-sm border border-gray-200 shadow-sm rounded-2xl p-6 fade-in-up" style="animation-delay: 0.2s;">
                 <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2 border-b border-gray-100 pb-2">
                     <span class="p-1.5 bg-blue-50 text-ms-blue rounded-lg">🖥️</span> 
                     Sistem Belajar Langsung Praktik
@@ -306,7 +271,7 @@
             </section>
 
             <!-- FORM CEKLIS MATERI -->
-            <section class="mb-10 bg-white/95 backdrop-blur-sm border border-gray-200 shadow-sm rounded-3xl p-6 md:p-8 fade-in-up" style="animation-delay: 0.3s;">
+            <section class="mb-10 fade-in-up" style="animation-delay: 0.3s;">
                 <div class="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-2">
                     <h2 class="text-lg font-bold text-gray-900 tracking-wider flex items-center gap-2">
                         <span class="text-pbi-yellow text-xl">⚡</span> PILIH MATERI INTI ANDA:
@@ -314,7 +279,7 @@
                     <span class="text-xs bg-blue-50 text-ms-blue px-3 py-1 rounded-full font-medium border border-blue-100">Pilih 1 atau lebih materi</span>
                 </div>
                 
-                <div class="space-y-3">
+                <div class="bg-white/95 backdrop-blur-sm border border-gray-200 rounded-2xl shadow-sm p-4 md:p-6 space-y-3">
                     
                     <label class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-gray-200 cursor-pointer">
                         <div class="flex items-center h-full pt-1.5">
@@ -374,7 +339,7 @@
             </section>
 
             <!-- HARGA DINAMIS -->
-            <section class="mb-8 bg-gradient-to-br from-white to-gray-50 border border-gray-200 shadow-sm rounded-3xl p-6 text-center fade-in-up" style="animation-delay: 0.4s;">
+            <section class="mb-8 bg-gradient-to-br from-white to-gray-50 border border-gray-200 shadow-sm rounded-2xl p-6 text-center fade-in-up" style="animation-delay: 0.4s;">
                 <p class="text-xs text-ms-blue font-bold tracking-widest uppercase mb-1">Investasi Pengetahuan</p>
                 <h2 class="text-xl font-bold text-gray-900 mb-5">ESTIMASI BIAYA SESI</h2>
                 
@@ -390,7 +355,7 @@
                 </p>
             </section>
 
-            <section class="mb-10 bg-white/95 backdrop-blur-sm border border-gray-200 shadow-sm rounded-3xl p-5 text-sm fade-in-up" style="animation-delay: 0.5s;">
+            <section class="mb-10 border border-gray-200 shadow-sm rounded-2xl p-5 bg-white/95 backdrop-blur-sm text-sm fade-in-up" style="animation-delay: 0.5s;">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-center md:text-left text-gray-700 font-medium">
                     <div class="flex items-center gap-2 justify-center md:justify-start">
                         <span class="text-[#0078D4] font-bold text-lg">✔</span> Dataset Riil Industri
@@ -405,7 +370,7 @@
             </section>
 
             <!-- CTA WHATSAPP -->
-            <section class="text-center bg-white/95 backdrop-blur-sm border border-blue-200 rounded-3xl p-8 fade-in-up shadow-sm" style="animation-delay: 0.6s;">
+            <section class="text-center bg-white/95 backdrop-blur-sm border border-blue-200 rounded-2xl p-8 fade-in-up shadow-sm" style="animation-delay: 0.6s;">
                 <h2 class="text-xl font-bold text-gray-900 mb-1">Amankan Slot Konsultasi Anda</h2>
                 <p class="text-sm text-gray-600 mb-6">Pilih materi dan klik tombol di bawah untuk pesan jadwal bimbingan.</p>
                 
