@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brosur Penawaran Tutorial Jarak Jauh - Ladang Gold</title>
+    <title>Brosur Penawaran Tutorial Jarak Jauh - UpSkill Analisis Data</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
@@ -130,11 +130,11 @@
 
             <div class="max-w-3xl mx-auto relative z-10 fade-in-up">
                 <span class="inline-block px-3 py-1 text-xs font-semibold tracking-wider text-ms-blue bg-blue-50 border border-blue-100 rounded-full mb-4 uppercase">
-                    Upskill to Data Analyst
+                    Eksklusif Jarak Jauh (1-on-1)2
                 </span>
                 
                 <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-2 anim-shrink-text">
-                    LADANG GOLD
+                    UpSkill Analisis Data
                 </h1>
                 
                 <div class="my-2 flex justify-center items-center">
@@ -319,7 +319,7 @@
             if (selectedCount === 1) {
                 priceText = "Rp 150.000";
                 priceValue = "150.000";
-                descElement.innerText = "Per Sesi Pembelajaran Privat";
+                descElement.innerText = "Per Sesi Pembelajaran Privat(@sesi durasi 2-3 Jam)";
             } else if (selectedCount >= 2 && selectedCount <= 4) {
                 priceText = "Rp 200.000";
                 priceValue = "200.000";
@@ -337,7 +337,7 @@
 
             // Update Link WhatsApp dengan Format Teks Dinamis
             if (selectedCount > 0) {
-                let message = `Halo Ladang Gold, saya tertarik dengan Tutorial Jarak Jauh Pemodelan Data.\n\nSaya ingin memesan materi berikut:\n${selectedMaterials.join('\n')}\n\n*Estimasi Biaya: Rp ${priceValue} per sesi.*`;
+                let message = `Hai Kak, saya tertarik dengan Tutorial Jarak Jauh Pemodelan Data.\n\nSaya ingin memesan materi berikut:\n${selectedMaterials.join('\n')}\n\n*Estimasi Biaya: Rp ${priceValue} per sesi.*`;
                 let waUrl = `https://wa.me/6281574444899?text=${encodeURIComponent(message)}`;
                 waLinkElement.href = waUrl;
                 waLinkElement.classList.remove('opacity-75');
