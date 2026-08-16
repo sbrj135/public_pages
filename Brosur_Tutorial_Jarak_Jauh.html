@@ -11,6 +11,7 @@
         body { 
             font-family: 'Segoe UI', 'Inter', system-ui, sans-serif; 
             background-color: #FAFAFA;
+            overflow-x: hidden;
         }
 
         /* Power BI Brand Colors */
@@ -32,178 +33,263 @@
                 transform: translateY(0);
             }
         }
+
+        /* --- TAMBAHAN ANIMASI BACKGROUND & TEKS --- */
+        
+        /* Animasi Teks Shrink (Mengecil lalu kembali normal) */
+        .anim-shrink-text {
+            display: inline-block;
+            animation: shrinkText 4s ease-in-out infinite;
+        }
+        @keyframes shrinkText {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(0.92); }
+        }
+
+        /* Animasi Ikon Latar Belakang */
+        .bg-icon {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Fade In Out & Fly */
+        .anim-fade-fly {
+            animation: fadeFly 12s linear infinite;
+        }
+        @keyframes fadeFly {
+            0% { transform: translateY(100px) scale(0.5); opacity: 0; }
+            20% { opacity: 0.15; }
+            80% { opacity: 0.15; }
+            100% { transform: translateY(-200px) scale(1.2); opacity: 0; }
+        }
+
+        /* Berputar Searah Jarum Jam (Clockwise) & Fade */
+        .anim-spin-fade {
+            animation: spinFade 15s linear infinite;
+        }
+        @keyframes spinFade {
+            0% { transform: rotate(0deg) scale(0.8); opacity: 0; }
+            50% { opacity: 0.1; }
+            100% { transform: rotate(360deg) scale(1.5); opacity: 0; }
+        }
+
+        /* Fly In and Fly Out Random */
+        .anim-fly-random {
+            animation: flyRandom 18s ease-in-out infinite alternate;
+        }
+        @keyframes flyRandom {
+            0% { transform: translate(-50px, -50px) rotate(-20deg); opacity: 0; }
+            30% { opacity: 0.12; }
+            70% { opacity: 0.12; }
+            100% { transform: translate(150px, 150px) rotate(45deg); opacity: 0; }
+        }
     </style>
 </head>
-<body class="text-gray-800 antialiased selection:bg-[#F2C811] selection:text-black">
+<body class="text-gray-800 antialiased selection:bg-[#F2C811] selection:text-black relative">
 
-    <header class="bg-white border-b border-gray-200 py-16 px-4 text-center shadow-sm relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-1 bg-pbi-yellow"></div>
-        <div class="absolute -top-24 -right-24 w-64 h-64 bg-yellow-50 rounded-full blur-3xl opacity-60"></div>
-        <div class="absolute top-10 -left-10 w-40 h-40 bg-blue-50 rounded-full blur-2xl opacity-60"></div>
+    <!-- KONTANER IKON ANIMASI (GRAFIK, KPI, DAX, MEASURE) -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <!-- Ikon Bar Chart (PBI) -->
+        <svg class="bg-icon text-ms-blue anim-fade-fly w-32 h-32" style="left: 10%; top: 20%; animation-delay: 0s;" fill="currentColor" viewBox="0 0 24 24"><path d="M4 20h16v2H4zM6 10h3v10H6zm5-6h3v16h-3zm5 4h3v12h-3z"/></svg>
+        
+        <!-- Ikon DAX (fx) -->
+        <svg class="bg-icon text-pbi-yellow anim-spin-fade w-40 h-40" style="right: 5%; top: 15%; animation-delay: 2s;" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <text x="4" y="18" font-family="serif" font-style="italic" font-size="14" font-weight="bold" fill="currentColor" stroke="none">fx</text>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4h16v16H4z"/>
+        </svg>
 
-        <div class="max-w-3xl mx-auto relative z-10 fade-in-up">
-            <span class="inline-block px-3 py-1 text-xs font-semibold tracking-wider text-ms-blue bg-blue-50 border border-blue-100 rounded-full mb-4 uppercase">
-                Eksklusif Jarak Jauh (1-on-1)
-            </span>
-            
-            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-2">
-                LADANG GOLD
-            </h1>
-            
-            <div class="my-2 flex justify-center items-center">
-                <p class="text-lg md:text-xl font-mono text-ms-blue font-semibold tracking-wide bg-blue-50/50 px-4 py-1 rounded-md">
-                    &gt;_ Private Class Terarah
+        <!-- Ikon Line Chart -->
+        <svg class="bg-icon text-ms-blue anim-fly-random w-48 h-48" style="left: -5%; bottom: 10%; animation-delay: 4s;" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 14l4-4 4 4 6-6"/>
+        </svg>
+
+        <!-- Ikon KPI (Target/Bullseye) -->
+        <svg class="bg-icon text-pbi-yellow anim-fade-fly w-28 h-28" style="right: 20%; bottom: 15%; animation-delay: 6s; animation-duration: 15s;" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" />
+            <circle cx="12" cy="12" r="6" />
+            <circle cx="12" cy="12" r="2" fill="currentColor"/>
+        </svg>
+
+        <!-- Ikon Measure (Kalkulator/Database) -->
+        <svg class="bg-icon text-ms-blue anim-spin-fade w-24 h-24" style="left: 40%; top: 40%; animation-delay: 8s;" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+        </svg>
+    </div>
+
+    <!-- MAIN CONTENT KONTANER (Z-INDEX TINGGI AGAR TIDAK TERTUTUP ANIMASI) -->
+    <div class="relative z-10">
+        <header class="bg-white/90 backdrop-blur-sm border-b border-gray-200 py-16 px-4 text-center shadow-sm relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-pbi-yellow"></div>
+            <div class="absolute -top-24 -right-24 w-64 h-64 bg-yellow-50 rounded-full blur-3xl opacity-60 z-[-1]"></div>
+            <div class="absolute top-10 -left-10 w-40 h-40 bg-blue-50 rounded-full blur-2xl opacity-60 z-[-1]"></div>
+
+            <div class="max-w-3xl mx-auto relative z-10 fade-in-up">
+                <span class="inline-block px-3 py-1 text-xs font-semibold tracking-wider text-ms-blue bg-blue-50 border border-blue-100 rounded-full mb-4 uppercase">
+                    Eksklusif Jarak Jauh (1-on-1)
+                </span>
+                
+                <!-- Efek Teks Animasi Shrink ditambahkan di sini -->
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-2 anim-shrink-text">
+                    LADANG GOLD
+                </h1>
+                
+                <div class="my-2 flex justify-center items-center">
+                    <p class="text-lg md:text-xl font-mono text-ms-blue font-semibold tracking-wide bg-blue-50/50 px-4 py-1 rounded-md">
+                        &gt;_ Private Class Terarah
+                    </p>
+                </div>
+
+                <p class="text-lg md:text-xl font-light text-gray-600 max-w-2xl mx-auto leading-relaxed mt-4">
+                    Program Akselerasi Keahlian: <span class="text-gray-900 font-semibold">Pemodelan Data & Analisis Lanjutan</span>
+                </p>
+                <p class="text-sm text-gray-500 mt-4 max-w-lg mx-auto">
+                    Metode belajar privat interaktif via <span class="text-ms-blue font-semibold">TeamViewer Remote Desktop</span>. Langsung praktik di komputer Anda!
                 </p>
             </div>
+        </header>
 
-            <p class="text-lg md:text-xl font-light text-gray-600 max-w-2xl mx-auto leading-relaxed mt-4">
-                Program Akselerasi Keahlian: <span class="text-gray-900 font-semibold">Pemodelan Data & Analisis Lanjutan</span>
-            </p>
-            <p class="text-sm text-gray-500 mt-4 max-w-lg mx-auto">
-                Metode belajar privat interaktif via <span class="text-ms-blue font-semibold">TeamViewer Remote Desktop</span>. Langsung praktik di komputer Anda!
-            </p>
-        </div>
-    </header>
-
-    <main class="max-w-3xl mx-auto px-4 py-12">
-        
-        <section class="mb-10 bg-white border border-gray-200 shadow-sm rounded-2xl p-6 fade-in-up" style="animation-delay: 0.1s;">
-            <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2 border-b border-gray-100 pb-2">
-                <span class="p-1.5 bg-blue-50 text-ms-blue rounded-lg">🖥️</span> 
-                Sistem Belajar Langsung Praktik
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
-                <div class="p-4 bg-gray-50 border border-gray-100 rounded-xl hover:border-gray-200 transition-colors">
-                    <h3 class="font-semibold text-gray-900 mb-1">💯 100% Kerja Nyata</h3>
-                    <p>Instruktur mengontrol langsung di layar monitor Anda, menyelesaikan masalah data riil tanpa teori berbelit.</p>
-                </div>
-                <div class="p-4 bg-gray-50 border border-gray-100 rounded-xl hover:border-gray-200 transition-colors">
-                    <h3 class="font-semibold text-gray-900 mb-1">⏱️ Waktu Fleksibel</h3>
-                    <p>Jadwal fleksibel (bisa malam/weekend) yang disesuaikan penuh dengan waktu luang mahasiswa ataupun profesional.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- FORM CEKLIS MATERI -->
-        <section class="mb-10 fade-in-up" style="animation-delay: 0.2s;">
-            <div class="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-2">
-                <h2 class="text-lg font-bold text-gray-900 tracking-wider flex items-center gap-2">
-                    <span class="text-pbi-yellow text-xl">⚡</span> PILIH MATERI INTI ANDA:
+        <main class="max-w-3xl mx-auto px-4 py-12">
+            
+            <section class="mb-10 bg-white/95 backdrop-blur-sm border border-gray-200 shadow-sm rounded-2xl p-6 fade-in-up" style="animation-delay: 0.1s;">
+                <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2 border-b border-gray-100 pb-2">
+                    <span class="p-1.5 bg-blue-50 text-ms-blue rounded-lg">🖥️</span> 
+                    Sistem Belajar Langsung Praktik
                 </h2>
-                <span class="text-xs bg-blue-50 text-ms-blue px-3 py-1 rounded-full font-medium border border-blue-100">Pilih 1 atau lebih materi</span>
-            </div>
-            
-            <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-4 md:p-6 space-y-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
+                    <div class="p-4 bg-gray-50 border border-gray-100 rounded-xl hover:border-gray-200 transition-colors">
+                        <h3 class="font-semibold text-gray-900 mb-1">💯 100% Kerja Nyata</h3>
+                        <p>Instruktur mengontrol langsung di layar monitor Anda, menyelesaikan masalah data riil tanpa teori berbelit.</p>
+                    </div>
+                    <div class="p-4 bg-gray-50 border border-gray-100 rounded-xl hover:border-gray-200 transition-colors">
+                        <h3 class="font-semibold text-gray-900 mb-1">⏱️ Waktu Fleksibel</h3>
+                        <p>Jadwal fleksibel (bisa malam/weekend) yang disesuaikan penuh dengan waktu luang mahasiswa ataupun profesional.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FORM CEKLIS MATERI -->
+            <section class="mb-10 fade-in-up" style="animation-delay: 0.2s;">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-2">
+                    <h2 class="text-lg font-bold text-gray-900 tracking-wider flex items-center gap-2">
+                        <span class="text-pbi-yellow text-xl">⚡</span> PILIH MATERI INTI ANDA:
+                    </h2>
+                    <span class="text-xs bg-blue-50 text-ms-blue px-3 py-1 rounded-full font-medium border border-blue-100">Pilih 1 atau lebih materi</span>
+                </div>
                 
-                <label class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-gray-200 cursor-pointer">
-                    <div class="flex items-center h-full pt-1.5">
-                        <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#0078D4] cursor-pointer" value="Engine Power Query & M-Language" onchange="updatePriceAndLink()">
-                    </div>
-                    <span class="text-lg bg-[#F2C811]/10 text-yellow-700 p-2.5 rounded-lg font-mono font-bold">01</span>
-                    <div>
-                        <h3 class="font-bold text-gray-900 text-base">Engine Power Query & M-Language</h3>
-                        <p class="text-sm text-gray-500 mt-0.5">Ekstraksi data lintas sektoral, transformasi data berantakan, serta optimasi Query Folding.</p>
-                    </div>
-                </label>
+                <div class="bg-white/95 backdrop-blur-sm border border-gray-200 rounded-2xl shadow-sm p-4 md:p-6 space-y-3">
+                    
+                    <label class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-gray-200 cursor-pointer">
+                        <div class="flex items-center h-full pt-1.5">
+                            <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#0078D4] cursor-pointer" value="Engine Power Query & M-Language" onchange="updatePriceAndLink()">
+                        </div>
+                        <span class="text-lg bg-[#F2C811]/10 text-yellow-700 p-2.5 rounded-lg font-mono font-bold">01</span>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-base">Engine Power Query & M-Language</h3>
+                            <p class="text-sm text-gray-500 mt-0.5">Ekstraksi data lintas sektoral, transformasi data berantakan, serta optimasi Query Folding.</p>
+                        </div>
+                    </label>
 
-                <label class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-gray-200 cursor-pointer">
-                    <div class="flex items-center h-full pt-1.5">
-                        <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#0078D4] cursor-pointer" value="Arsitektur Data Model & Skalabilitas" onchange="updatePriceAndLink()">
-                    </div>
-                    <span class="text-lg bg-[#F2C811]/10 text-yellow-700 p-2.5 rounded-lg font-mono font-bold">02</span>
-                    <div>
-                        <h3 class="font-bold text-gray-900 text-base">Arsitektur Data Model & Skalabilitas</h3>
-                        <p class="text-sm text-gray-500 mt-0.5">Penyusunan skema database yang efisien dan bersih (Star Schema / Snowflake).</p>
-                    </div>
-                </label>
+                    <label class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-gray-200 cursor-pointer">
+                        <div class="flex items-center h-full pt-1.5">
+                            <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#0078D4] cursor-pointer" value="Arsitektur Data Model & Skalabilitas" onchange="updatePriceAndLink()">
+                        </div>
+                        <span class="text-lg bg-[#F2C811]/10 text-yellow-700 p-2.5 rounded-lg font-mono font-bold">02</span>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-base">Arsitektur Data Model & Skalabilitas</h3>
+                            <p class="text-sm text-gray-500 mt-0.5">Penyusunan skema database yang efisien dan bersih (Star Schema / Snowflake).</p>
+                        </div>
+                    </label>
 
-                <label class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-gray-200 cursor-pointer">
-                    <div class="flex items-center h-full pt-1.5">
-                        <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#0078D4] cursor-pointer" value="Optimasi Relasi Power Pivot" onchange="updatePriceAndLink()">
-                    </div>
-                    <span class="text-lg bg-[#F2C811]/10 text-yellow-700 p-2.5 rounded-lg font-mono font-bold">03</span>
-                    <div>
-                        <h3 class="font-bold text-gray-900 text-base">Optimasi Relasi Power Pivot</h3>
-                        <p class="text-sm text-gray-500 mt-0.5">Koneksi presisi antar tabel fakta dan dimensi sebagai pondasi utama interactive dashboard.</p>
-                    </div>
-                </label>
+                    <label class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-gray-200 cursor-pointer">
+                        <div class="flex items-center h-full pt-1.5">
+                            <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#0078D4] cursor-pointer" value="Optimasi Relasi Power Pivot" onchange="updatePriceAndLink()">
+                        </div>
+                        <span class="text-lg bg-[#F2C811]/10 text-yellow-700 p-2.5 rounded-lg font-mono font-bold">03</span>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-base">Optimasi Relasi Power Pivot</h3>
+                            <p class="text-sm text-gray-500 mt-0.5">Koneksi presisi antar tabel fakta dan dimensi sebagai pondasi utama interactive dashboard.</p>
+                        </div>
+                    </label>
 
-                <label class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-gray-200 cursor-pointer">
-                    <div class="flex items-center h-full pt-1.5">
-                        <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#0078D4] cursor-pointer" value="Kalkulasi Tingkat Lanjut via Rumus DAX" onchange="updatePriceAndLink()">
-                    </div>
-                    <span class="text-lg bg-[#F2C811]/10 text-yellow-700 p-2.5 rounded-lg font-mono font-bold">04</span>
-                    <div>
-                        <h3 class="font-bold text-gray-900 text-base">Kalkulasi Tingkat Lanjut via Rumus DAX</h3>
-                        <p class="text-sm text-gray-500 mt-0.5">Penguasaan formula analisis bisnis cerdas (Time Intelligence, Filter Context, Rumus Measure, YTD, dsb).</p>
-                    </div>
-                </label>
+                    <label class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-gray-200 cursor-pointer">
+                        <div class="flex items-center h-full pt-1.5">
+                            <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#0078D4] cursor-pointer" value="Kalkulasi Tingkat Lanjut via Rumus DAX" onchange="updatePriceAndLink()">
+                        </div>
+                        <span class="text-lg bg-[#F2C811]/10 text-yellow-700 p-2.5 rounded-lg font-mono font-bold">04</span>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-base">Kalkulasi Tingkat Lanjut via Rumus DAX</h3>
+                            <p class="text-sm text-gray-500 mt-0.5">Penguasaan formula analisis bisnis cerdas (Time Intelligence, Filter Context, Rumus Measure, YTD, dsb).</p>
+                        </div>
+                    </label>
 
-                <label class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-gray-200 cursor-pointer">
-                    <div class="flex items-center h-full pt-1.5">
-                        <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#0078D4] cursor-pointer" value="Manipulasi Eksponensial Python Pandas" onchange="updatePriceAndLink()">
-                    </div>
-                    <span class="text-lg bg-blue-50 text-ms-blue p-2.5 rounded-lg font-mono font-bold">05</span>
-                    <div>
-                        <h3 class="font-bold text-gray-900 text-base">Manipulasi Eksponensial Python Pandas</h3>
-                        <p class="text-sm text-gray-500 mt-0.5">Integrasi skrip Python ke dalam ekosistem olah data untuk pembersihan ekstrem dan aggregasi kilat.</p>
-                    </div>
-                </label>
-            </div>
-        </section>
-
-        <!-- HARGA DINAMIS -->
-        <section class="mb-8 bg-gradient-to-br from-white to-gray-50 border border-gray-200 shadow-sm rounded-2xl p-6 text-center fade-in-up" style="animation-delay: 0.3s;">
-            <p class="text-xs text-ms-blue font-bold tracking-widest uppercase mb-1">Investasi Pengetahuan</p>
-            <h2 class="text-xl font-bold text-gray-900 mb-5">ESTIMASI BIAYA SESI</h2>
-            
-            <div class="inline-block bg-white border-2 border-[#F2C811]/40 px-8 py-4 rounded-2xl shadow-sm mb-4 transition-all" id="price-box">
-                <span class="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight" id="dynamic-price">
-                    Pilih Materi
-                </span>
-                <span class="block text-xs text-gray-500 font-mono mt-1" id="price-desc">Ceklis materi di atas untuk melihat harga</span>
-            </div>
-            
-            <p class="text-xs text-gray-500 max-w-md mx-auto leading-relaxed">
-                *Biaya dapat disesuaikan kembali dengan tingkat kerumitan studi kasus/tugas/proyek riil Anda selama sesi remote berlangsung.
-            </p>
-        </section>
-
-        <section class="mb-10 border border-gray-200 shadow-sm rounded-2xl p-5 bg-white text-sm fade-in-up" style="animation-delay: 0.4s;">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-center md:text-left text-gray-700 font-medium">
-                <div class="flex items-center gap-2 justify-center md:justify-start">
-                    <span class="text-[#0078D4] font-bold text-lg">✔</span> Dataset Riil Industri
+                    <label class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-gray-200 cursor-pointer">
+                        <div class="flex items-center h-full pt-1.5">
+                            <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#0078D4] cursor-pointer" value="Manipulasi Eksponensial Python Pandas" onchange="updatePriceAndLink()">
+                        </div>
+                        <span class="text-lg bg-blue-50 text-ms-blue p-2.5 rounded-lg font-mono font-bold">05</span>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-base">Manipulasi Eksponensial Python Pandas</h3>
+                            <p class="text-sm text-gray-500 mt-0.5">Integrasi skrip Python ke dalam ekosistem olah data untuk pembersihan ekstrem dan aggregasi kilat.</p>
+                        </div>
+                    </label>
                 </div>
-                <div class="flex items-center gap-2 justify-center md:justify-start">
-                    <span class="text-[#0078D4] font-bold text-lg">✔</span> Konsultasi Kasus Kerja
+            </section>
+
+            <!-- HARGA DINAMIS -->
+            <section class="mb-8 bg-gradient-to-br from-white to-gray-50 border border-gray-200 shadow-sm rounded-2xl p-6 text-center fade-in-up" style="animation-delay: 0.3s;">
+                <p class="text-xs text-ms-blue font-bold tracking-widest uppercase mb-1">Investasi Pengetahuan</p>
+                <h2 class="text-xl font-bold text-gray-900 mb-5">ESTIMASI BIAYA SESI</h2>
+                
+                <div class="inline-block bg-white border-2 border-[#F2C811]/40 px-8 py-4 rounded-2xl shadow-sm mb-4 transition-all" id="price-box">
+                    <span class="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight" id="dynamic-price">
+                        Pilih Materi
+                    </span>
+                    <span class="block text-xs text-gray-500 font-mono mt-1" id="price-desc">Ceklis materi di atas untuk melihat harga</span>
                 </div>
-                <div class="flex items-center gap-2 justify-center md:justify-start">
-                    <span class="text-[#0078D4] font-bold text-lg">✔</span> E-Sertifikat Resmi
+                
+                <p class="text-xs text-gray-500 max-w-md mx-auto leading-relaxed">
+                    *Biaya dapat disesuaikan kembali dengan tingkat kerumitan studi kasus/tugas/proyek riil Anda selama sesi remote berlangsung.
+                </p>
+            </section>
+
+            <section class="mb-10 border border-gray-200 shadow-sm rounded-2xl p-5 bg-white/95 backdrop-blur-sm text-sm fade-in-up" style="animation-delay: 0.4s;">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-center md:text-left text-gray-700 font-medium">
+                    <div class="flex items-center gap-2 justify-center md:justify-start">
+                        <span class="text-[#0078D4] font-bold text-lg">✔</span> Dataset Riil Industri
+                    </div>
+                    <div class="flex items-center gap-2 justify-center md:justify-start">
+                        <span class="text-[#0078D4] font-bold text-lg">✔</span> Konsultasi Kasus Kerja
+                    </div>
+                    <div class="flex items-center gap-2 justify-center md:justify-start">
+                        <span class="text-[#0078D4] font-bold text-lg">✔</span> E-Sertifikat Resmi
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- CTA WHATSAPP -->
-        <section class="text-center bg-blue-50 border border-blue-100 rounded-2xl p-8 fade-in-up" style="animation-delay: 0.5s;">
-            <h2 class="text-xl font-bold text-gray-900 mb-1">Amankan Slot Konsultasi Anda</h2>
-            <p class="text-sm text-gray-600 mb-6">Pilih materi dan klik tombol di bawah untuk pesan jadwal bimbingan.</p>
-            
-            <a id="wa-link" href="#" onclick="return checkSelection(event)"
-               class="inline-flex items-center gap-3 bg-[#25D366] hover:bg-[#1DA851] text-white font-semibold py-3.5 px-8 rounded-xl shadow-md transition-all transform hover:-translate-y-0.5">
-                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.455L0 24zm6.59-4.846c1.62.962 3.377 1.47 5.357 1.471 5.43.002 9.85-4.415 9.853-9.845.002-2.63-1.023-5.101-2.887-6.964C17.052 1.892 14.58 1.861 11.957 1.86c-5.432 0-9.855 4.415-9.858 9.845-.001 1.959.514 3.876 1.492 5.547l-.991 3.621 3.701-.971zM17.52 14.33c-.302-.15-1.786-.882-2.057-.981-.271-.1-.469-.149-.667.149-.198.299-.767.981-.94 1.179-.173.199-.347.223-.649.074-.302-.15-1.274-.469-2.427-1.496-.897-.801-1.502-1.792-1.678-2.091-.176-.302-.019-.465.132-.614.136-.134.302-.352.453-.529.151-.177.201-.299.302-.497.101-.199.05-.373-.025-.523-.075-.149-.667-1.611-.913-2.203-.24-.579-.485-.501-.667-.51l-.571-.01c-.198 0-.52.074-.792.372-.272.299-1.04 1.018-1.04 2.483 0 1.464 1.064 2.88 1.213 3.079.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.786-.731 2.034-1.402.248-.671.248-1.242.173-1.36-.074-.119-.272-.198-.57-.347z"/>
-                </svg>
-                Pesan & Hubungi WhatsApp
-            </a>
-            
-            <p class="text-xs text-gray-500 mt-3 font-semibold tracking-wide">Hotline Tutorial</p>
-        </section>
+            <!-- CTA WHATSAPP -->
+            <section class="text-center bg-white/95 backdrop-blur-sm border border-blue-200 rounded-2xl p-8 fade-in-up shadow-sm" style="animation-delay: 0.5s;">
+                <h2 class="text-xl font-bold text-gray-900 mb-1">Amankan Slot Konsultasi Anda</h2>
+                <p class="text-sm text-gray-600 mb-6">Pilih materi dan klik tombol di bawah untuk pesan jadwal bimbingan.</p>
+                
+                <a id="wa-link" href="#" onclick="return checkSelection(event)"
+                   class="inline-flex items-center gap-3 bg-[#25D366] hover:bg-[#1DA851] text-white font-semibold py-3.5 px-8 rounded-xl shadow-md transition-all transform hover:-translate-y-0.5 opacity-75">
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.455L0 24zm6.59-4.846c1.62.962 3.377 1.47 5.357 1.471 5.43.002 9.85-4.415 9.853-9.845.002-2.63-1.023-5.101-2.887-6.964C17.052 1.892 14.58 1.861 11.957 1.86c-5.432 0-9.855 4.415-9.858 9.845-.001 1.959.514 3.876 1.492 5.547l-.991 3.621 3.701-.971zM17.52 14.33c-.302-.15-1.786-.882-2.057-.981-.271-.1-.469-.149-.667.149-.198.299-.767.981-.94 1.179-.173.199-.347.223-.649.074-.302-.15-1.274-.469-2.427-1.496-.897-.801-1.502-1.792-1.678-2.091-.176-.302-.019-.465.132-.614.136-.134.302-.352.453-.529.151-.177.201-.299.302-.497.101-.199.05-.373-.025-.523-.075-.149-.667-1.611-.913-2.203-.24-.579-.485-.501-.667-.51l-.571-.01c-.198 0-.52.074-.792.372-.272.299-1.04 1.018-1.04 2.483 0 1.464 1.064 2.88 1.213 3.079.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.786-.731 2.034-1.402.248-.671.248-1.242.173-1.36-.074-.119-.272-.198-.57-.347z"/>
+                    </svg>
+                    Pesan & Hubungi WhatsApp
+                </a>
+                
+                <p class="text-xs text-gray-500 mt-3 font-semibold tracking-wide">Hotline Tutorial</p>
+            </section>
 
-    </main>
+        </main>
 
-    <footer class="text-center py-8 text-xs text-gray-500 border-t border-gray-200 mt-12">
-        <p>&copy; 2026 Ladang Gold. All rights reserved. TeamViewer adalah merek dagang dari TeamViewer Germany.</p>
-    </footer>
+        <footer class="text-center py-8 text-xs text-gray-500 border-t border-gray-200 mt-12 bg-white/80">
+            <p>&copy; 2026 Ladang Gold. All rights reserved. TeamViewer adalah merek dagang dari TeamViewer Germany.</p>
+        </footer>
+    </div>
 
     <!-- SCRIPT LOGIKA PERHITUNGAN & WA LINK -->
     <script>
@@ -250,7 +336,6 @@
             // Update Link WhatsApp dengan Format Teks Dinamis
             if (selectedCount > 0) {
                 let message = `Halo Ladang Gold, saya tertarik dengan Tutorial Jarak Jauh Pemodelan Data.\n\nSaya ingin memesan materi berikut:\n${selectedMaterials.join('\n')}\n\n*Estimasi Biaya: Rp ${priceValue} per sesi.*`;
-                // Nomor WA baru dari gambar disisipkan ke sini
                 let waUrl = `https://wa.me/6281574444899?text=${encodeURIComponent(message)}`;
                 waLinkElement.href = waUrl;
                 waLinkElement.classList.remove('opacity-75');
@@ -269,7 +354,7 @@
             });
             
             if (!isChecked) {
-                event.preventDefault(); // Mencegah pindah halaman
+                event.preventDefault();
                 alert("Silakan ceklis minimal 1 materi terlebih dahulu pada bagian 'PILIH MATERI INTI ANDA' sebelum menghubungi WhatsApp.");
                 return false;
             }
