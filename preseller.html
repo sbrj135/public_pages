@@ -4086,13 +4086,13 @@ return Plotly;
             document.getElementById(id).innerHTML = html;
         }
 
-        function update() {
+function update() {
             const fontColor = currentTheme === 'dark' ? '#fff' : '#1a1a1a';
             const gridColor = currentTheme === 'dark' ? '#222' : '#e0e0e0';
             const titleColor = currentTheme === 'dark' ? '#39FF14' : '#0a5c02';
 
             const titleStyle = (txt) => ({ text: txt, x: 0.5, xanchor: 'center', y: 0.95, yanchor: 'top', font: { color: titleColor, size: 16 } });
-            
+
             const layoutBase = { 
                 paper_bgcolor: 'rgba(0,0,0,0)', 
                 plot_bgcolor: 'rgba(0,0,0,0)', 
@@ -4109,11 +4109,11 @@ return Plotly;
             let v25 = bulanOrder.map(b => fV.filter(x => x.Tahun===2025 && x.Bulan_Str===b).reduce((a,b)=>a+b.Qty,0));
             let v26 = bulanOrder.map(b => fV.filter(x => x.Tahun===2026 && x.Bulan_Str===b).reduce((a,b)=>a+b.Qty,0));
             let gM = v25.map((v,i) => v ? ((v26[i]-v)/v*100) : 0);
-            
+
             Plotly.newPlot('c_vol', [
-                {x:bulanOrder, y:v25, name:'2025', type:'bar', marker:{color:'#b29600'}, text: v25.map(v => v > 0 ? fN(v) : ''), textposition: 'auto', textangle: 0},
-                {x:bulanOrder, y:v26, name:'2026', type:'bar', marker:{color:'#00729c'}, text: v26.map(v => v > 0 ? fN(v) : ''), textposition: 'auto', textangle: 0},
-                {x:bulanOrder, y:gM, name:'Growth%', type:'scatter', yaxis:'y2', mode:'lines+markers+text', line:{shape:'spline'}, text:gM.map(g => g!=0?g.toFixed(0)+'%':''), textposition:'top center'}
+                {x:bulanOrder, y:v25, name:'2025', type:'bar', marker:{color:'#b29600'}, text: v25.map(v => v > 0 ? fN(v) : ''), textposition: 'auto', textangle: 0, customdata: v25.map(v => fN(v)), hovertemplate: '%{x}<br>Vol 2025: <b>%{customdata}</b><extra></extra>'},
+                {x:bulanOrder, y:v26, name:'2026', type:'bar', marker:{color:'#00729c'}, text: v26.map(v => v > 0 ? fN(v) : ''), textposition: 'auto', textangle: 0, customdata: v26.map(v => fN(v)), hovertemplate: '%{x}<br>Vol 2026: <b>%{customdata}</b><extra></extra>'},
+                {x:bulanOrder, y:gM, name:'Growth%', type:'scatter', yaxis:'y2', mode:'lines+markers+text', line:{shape:'spline'}, text:gM.map(g => g!=0?g.toFixed(0)+'%':''), textposition:'top center', customdata: gM.map(g => g.toFixed(1) + '%'), hovertemplate: '%{x}<br>Growth: <b>%{customdata}</b><extra></extra>'}
             ], { ...layoutBase, title: titleStyle('GRAFIK VOLUME YOY'), barmode:'group', yaxis2: {overlaying:'y', side:'right', showgrid:false, zeroline: false} }, configBase);
             genTable('t_vol', v25, v26, bulanOrder, 'vol');
 
@@ -4121,11 +4121,11 @@ return Plotly;
             let q25 = qtrOrder.map(q => fV.filter(x => x.Tahun===2025 && x.Kuartal===q).reduce((a,b)=>a+b.Qty,0));
             let q26 = qtrOrder.map(q => fV.filter(x => x.Tahun===2026 && x.Kuartal===q).reduce((a,b)=>a+b.Qty,0));
             let gQ = q25.map((v,i) => v ? ((q26[i]-v)/v*100) : 0);
-            
+
             Plotly.newPlot('c_qtr', [
-                {x:qtrOrder, y:q25, name:'2025', type:'bar', marker:{color:'#FF9F00'}, text: q25.map(v => v > 0 ? fN(v) : ''), textposition: 'auto', textangle: 0},
-                {x:qtrOrder, y:q26, name:'2026', type:'bar', marker:{color:'#00FFFF'}, text: q26.map(v => v > 0 ? fN(v) : ''), textposition: 'auto', textangle: 0},
-                {x:qtrOrder, y:gQ, name:'Growth%', type:'scatter', yaxis:'y2', mode:'lines+markers+text', line:{shape:'spline'}, text:gQ.map(g => g.toFixed(1)+'%'), textposition:'top center'}
+                {x:qtrOrder, y:q25, name:'2025', type:'bar', marker:{color:'#FF9F00'}, text: q25.map(v => v > 0 ? fN(v) : ''), textposition: 'auto', textangle: 0, customdata: q25.map(v => fN(v)), hovertemplate: '%{x}<br>Vol 2025: <b>%{customdata}</b><extra></extra>'},
+                {x:qtrOrder, y:q26, name:'2026', type:'bar', marker:{color:'#00FFFF'}, text: q26.map(v => v > 0 ? fN(v) : ''), textposition: 'auto', textangle: 0, customdata: q26.map(v => fN(v)), hovertemplate: '%{x}<br>Vol 2026: <b>%{customdata}</b><extra></extra>'},
+                {x:qtrOrder, y:gQ, name:'Growth%', type:'scatter', yaxis:'y2', mode:'lines+markers+text', line:{shape:'spline'}, text:gQ.map(g => g.toFixed(1)+'%'), textposition:'top center', customdata: gQ.map(g => g.toFixed(1) + '%'), hovertemplate: '%{x}<br>Growth: <b>%{customdata}</b><extra></extra>'}
             ], { ...layoutBase, title: titleStyle('GRAFIK KUARTAL'), barmode:'group', yaxis2: {overlaying:'y', side:'right', showgrid:false, zeroline: false}, xaxis: { showgrid: true, gridcolor: gridColor } }, configBase);
             genTable('t_qtr', q25, q26, qtrOrder, 'vol');
 
@@ -4133,19 +4133,19 @@ return Plotly;
             let s25 = bulanOrder.map(b => { let rows = fV.filter(x => x.Tahun===2025 && x.Bulan_Str===b); let vol = rows.reduce((a,b)=>a+b.Qty,0); return rows.length > 0 ? vol/rows[0].HK : 0; });
             let s26 = bulanOrder.map(b => { let rows = fV.filter(x => x.Tahun===2026 && x.Bulan_Str===b); let vol = rows.reduce((a,b)=>a+b.Qty,0); return rows.length > 0 ? vol/rows[0].HK : 0; });
             Plotly.newPlot('c_spd', [
-    {x:bulanOrder, y:s25, name:'SPD 25', mode:'lines+markers+text', line:{color:'#A020F0', width:3, shape:'spline'}, fill:'tozeroy', fillcolor:'rgba(160,32,240,0.1)', text:s25.map(v=>v>0?Math.round(v).toLocaleString('id-ID'):''), textposition:'top center'},
-    {x:bulanOrder, y:s26, name:'SPD 26', mode:'lines+markers+text', line:{color:'#39FF14', width:3, shape:'spline'}, fill:'tozeroy', fillcolor:'rgba(57,255,20,0.1)', text:s26.map(v=>v>0?Math.round(v).toLocaleString('id-ID'):''), textposition:'top center'}
-], { ...layoutBase, title: titleStyle('GRAFIK SPD') }, configBase);
+                {x:bulanOrder, y:s25, name:'SPD 25', mode:'lines+markers+text', line:{color:'#A020F0', width:3, shape:'spline'}, fill:'tozeroy', fillcolor:'rgba(160,32,240,0.1)', text:s25.map(v=>v>0?Math.round(v).toLocaleString('id-ID'):''), textposition:'top center', customdata: s25.map(v => fN(v)), hovertemplate: '%{x}<br>SPD 2025: <b>%{customdata}</b><extra></extra>'},
+                {x:bulanOrder, y:s26, name:'SPD 26', mode:'lines+markers+text', line:{color:'#39FF14', width:3, shape:'spline'}, fill:'tozeroy', fillcolor:'rgba(57,255,20,0.1)', text:s26.map(v=>v>0?Math.round(v).toLocaleString('id-ID'):''), textposition:'top center', customdata: s26.map(v => fN(v)), hovertemplate: '%{x}<br>SPD 2026: <b>%{customdata}</b><extra></extra>'}
+            ], { ...layoutBase, title: titleStyle('GRAFIK SPD') }, configBase);
             genTable('t_spd', s25, s26, bulanOrder, 'spd');
 
             // 3.1 HARIAN MENYAMPING
             let currentBulanFull = raw.max_bulan_full;
             document.getElementById('title_harian_actual').innerText = `VOLUME ACTUAL BULAN ${currentBulanFull.toUpperCase()} 2026`;
-            
+
             let fH = filterData(raw.harian).filter(x => x.Tahun === 2026 && x.Bulan_Full === currentBulanFull);
             let harianMap = {};
             let tanggalSet = [...new Set(fH.map(x => x.Tanggal_Full_Str))];
-            
+
             fH.forEach(x => {
                 if(!harianMap[x['SKU 1']]) harianMap[x['SKU 1']] = {};
                 harianMap[x['SKU 1']][x.Tanggal_Full_Str] = (harianMap[x['SKU 1']][x.Tanggal_Full_Str] || 0) + x.Qty;
@@ -4173,19 +4173,19 @@ return Plotly;
             let fT = filterData(raw.tgt_manual);
             let actM = bulanFull.map(b => fT.filter(x => x.Bulan === b).reduce((a,b) => a + b.ACT, 0));
             let keyFilterKey = document.getElementById('depo').value + '_' + document.getElementById('pss').value + '_' + document.getElementById('seg').value + '_' + document.getElementById('sku').value;
-            
+
             if(!manualTargets[keyFilterKey]) {
                 manualTargets[keyFilterKey] = {};
                 bulanFull.forEach((b, i) => manualTargets[keyFilterKey][b] = actM[i]); 
             }
-            
+
             let tgtM = bulanFull.map(b => manualTargets[keyFilterKey][b] || 0);
             let achM = tgtM.map((t, i) => t ? (actM[i] / t * 100) : 0);
 
             Plotly.newPlot('c_tgt', [
-                {x:bulanFull, y:tgtM, name:'Target Manual', type:'bar', marker:{color:'rgba(255,165,0,0.5)'}, text: tgtM.map(v => v > 0 ? fN(v) : ''), textposition: 'auto', textangle: 0},
-                {x:bulanFull, y:actM, name:'Actual', type:'bar', marker:{color:'#0a5c02'}, text: actM.map(v => v > 0 ? fN(v) : ''), textposition: 'auto', textangle: 0},
-                {x:bulanFull, y:achM, name:'Ach%', type:'scatter', yaxis:'y2', mode:'lines+markers+text', line:{color:'#0099ff', width:3, shape:'spline'}, text:achM.map(v=>v.toFixed(0)+'%'), textposition:'top center'}
+                {x:bulanFull, y:tgtM, name:'Target Manual', type:'bar', marker:{color:'rgba(255,165,0,0.5)'}, text: tgtM.map(v => v > 0 ? fN(v) : ''), textposition: 'auto', textangle: 0, customdata: tgtM.map(v => fN(v)), hovertemplate: '%{x}<br>Target: <b>%{customdata}</b><extra></extra>'},
+                {x:bulanFull, y:actM, name:'Actual', type:'bar', marker:{color:'#0a5c02'}, text: actM.map(v => v > 0 ? fN(v) : ''), textposition: 'auto', textangle: 0, customdata: actM.map(v => fN(v)), hovertemplate: '%{x}<br>Actual: <b>%{customdata}</b><extra></extra>'},
+                {x:bulanFull, y:achM, name:'Ach%', type:'scatter', yaxis:'y2', mode:'lines+markers+text', line:{color:'#0099ff', width:3, shape:'spline'}, text:achM.map(v=>v.toFixed(0)+'%'), textposition:'top center', customdata: achM.map(v => v.toFixed(1) + '%'), hovertemplate: '%{x}<br>Ach: <b>%{customdata}</b><extra></extra>'}
             ], { ...layoutBase, title: titleStyle('ACTUAL VS TARGET MANUAL 2026'), barmode:'group', yaxis2: {overlaying:'y', side:'right', showgrid:false, range:[0, 150]}, xaxis: { showgrid: true, gridcolor: gridColor } }, configBase);
 
             let htmlTgt = `<table><thead><tr><th>Indicator</th>` + bulanFull.map(b => `<th>${b}</th>`).join('') + `</tr></thead><tbody>`;
@@ -4198,7 +4198,7 @@ return Plotly;
             // 5. TREN AO (AUTOMATICALLY SWITCHES BETWEEN ALL vs SPECIFIC SALES DATA)
             let selectedSales = document.getElementById('pss').value;
             let isSkuAll = document.getElementById('sku').value === 'ALL';
-            
+
             let sourceAo = selectedSales === 'ALL' 
                 ? (isSkuAll ? raw.ao_s_all : raw.ao_k_all) 
                 : (isSkuAll ? raw.ao_s_spec : raw.ao_k_spec);
@@ -4206,10 +4206,10 @@ return Plotly;
             let fA = filterData(sourceAo);
             let a25 = bulanOrder.map(b => fA.filter(x => x.Tahun===2025 && x.Bulan_Str===b).reduce((a,b)=>a+b.AO,0));
             let a26 = bulanOrder.map(b => fA.filter(x => x.Tahun===2026 && x.Bulan_Str===b).reduce((a,b)=>a+b.AO,0));
-            
+
             Plotly.newPlot('c_ao', [
-{x:bulanOrder, y:a25, name:'AO 2025', type:'scatter', mode:'lines+markers+text', line:{shape:'spline', color:'#FFA500', width:3}, fill:'tozeroy', fillcolor:'rgba(255,165,0,0.1)', text:a25.map(v=>v>0?v.toLocaleString('id-ID'):''), textposition:'bottom center'},
-{x:bulanOrder, y:a26, name:'AO 2026', type:'scatter', mode:'lines+markers+text', line:{shape:'spline', color:'#A020F0', width:3}, fill:'tozeroy', fillcolor:'rgba(160,32,240,0.1)', text:a26.map(v=>v>0?v.toLocaleString('id-ID'):''), textposition:'top center'}
+                {x:bulanOrder, y:a25, name:'AO 2025', type:'scatter', mode:'lines+markers+text', line:{shape:'spline', color:'#FFA500', width:3}, fill:'tozeroy', fillcolor:'rgba(255,165,0,0.1)', text:a25.map(v=>v>0?v.toLocaleString('id-ID'):''), textposition:'bottom center', customdata: a25.map(v => fN(v)), hovertemplate: '%{x}<br>AO 2025: <b>%{customdata}</b><extra></extra>'},
+                {x:bulanOrder, y:a26, name:'AO 2026', type:'scatter', mode:'lines+markers+text', line:{shape:'spline', color:'#A020F0', width:3}, fill:'tozeroy', fillcolor:'rgba(160,32,240,0.1)', text:a26.map(v=>v>0?v.toLocaleString('id-ID'):''), textposition:'top center', customdata: a26.map(v => fN(v)), hovertemplate: '%{x}<br>AO 2026: <b>%{customdata}</b><extra></extra>'}
             ], { ...layoutBase, title: titleStyle('ACTIVE OUTLET TREND') }, configBase);
             genTable('t_ao', a25, a26, bulanOrder, 'ao');
         }
