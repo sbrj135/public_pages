@@ -4083,7 +4083,7 @@ return Plotly;
 
         function calculateHarianMetrics(fData) {
             let dates = raw.hari_list;
-            let targetHK = parseFloat(document.getElementById('val_target_hk').innerText) || 24;
+            let targetHK = parseFloat(document.getElementById('val_target_hk').innerText) || 26;
             let liburManual = parseInt(document.getElementById('input_libur').value) || 0;
             
             let activeDaysCount = 0;
@@ -4102,7 +4102,7 @@ return Plotly;
             return { dates, targetHK, hkAktual };
         }
 
-        function renderHarianTable() {
+function renderHarianTable() {
             let fData = getFilteredHarianData();
             
             if (fData.length === 0) {
@@ -4130,26 +4130,27 @@ return Plotly;
             aggregatedData.sort((a, b) => {
                 let idxA = skuOrder.indexOf(a['SKU 1']);
                 let idxB = skuOrder.indexOf(b['SKU 1']);
-                if (idxA === -1) idxA = 999; // Taruh di bawah jika tidak ada di list
+                if (idxA === -1) idxA = 999; 
                 if (idxB === -1) idxB = 999;
                 if (idxA !== idxB) return idxA - idxB;
-                return a['SKU 1'].localeCompare(b['SKU 1']); // Fallback abjad
+                return a['SKU 1'].localeCompare(b['SKU 1']); 
             });
 
             let html = '<table class="excel-table"><thead>';
             html += '<tr><th rowspan="2">SKU</th>';
-            html += '<th>REALISASI</th><th>TARGET</th><th>ACH</th><th rowspan="2">AVG/HARI</th><th rowspan="2">GAP ke 100%</th><th rowspan="2">EST. LANDING</th><th rowspan="2">EST. ACH</th>';
+            // TAMBAH HEADER TARGET/HARI DI SINI
+            html += '<th>REALISASI</th><th>TARGET</th><th>ACH</th><th rowspan="2">AVG/HARI</th><th rowspan="2">GAP ke 100%</th><th rowspan="2">EST. LANDING</th><th rowspan="2">EST. ACH</th><th rowspan="2">TARGET/HARI</th>';
             
             const blnIndoMap = {'Januari':0, 'Februari':1, 'Maret':2, 'April':3, 'Mei':4, 'Juni':5, 'Juli':6, 'Agustus':7, 'September':8, 'Oktober':9, 'November':10, 'Desember':11};
             let arrBlnThn = "September 2026".split(" ");
             let jsThn = parseInt(arrBlnThn[1]);
             let jsBln = blnIndoMap[arrBlnThn[0]];
-	    
-	    dates.forEach(day => {
-		let cekHari = new Date(jsThn, jsBln, day);
-		let isWeekend = (cekHari.getDay() === 0) ? 'weekend' : '';
-		html += `<th rowspan="2" class="date-head ${isWeekend}">Tgl ${day}</th>`;
-            });				
+        
+            dates.forEach(day => {
+                let cekHari = new Date(jsThn, jsBln, day);
+                let isWeekend = (cekHari.getDay() === 0) ? 'weekend' : '';
+                html += `<th rowspan="2" class="date-head ${isWeekend}">Tgl ${day}</th>`;
+            });                
             html += '</tr>';
             html += `<tr class="sub-head"><th>September 2026</th><th>September 2026</th><th>%</th></tr></thead><tbody>`;
 
@@ -4161,6 +4162,8 @@ return Plotly;
                 let gap = row.TGT > row.Realisasi ? row.TGT - row.Realisasi : 0;
                 let estLanding = avgHari * targetHK;
                 let estAch = row.TGT > 0 ? (estLanding / row.TGT) * 100 : 0;
+                // HITUNG TARGET HARIAN PER SKU
+                let targetPerHari = targetHK > 0 ? (row.TGT / targetHK) : 0;
                 
                 let skuName = row['SKU 1'];
                 let bgStyle = '';
@@ -4168,9 +4171,9 @@ return Plotly;
                 
                 // LOGIKA WARNA CELL SKU
                 if (upperSku === 'MIZONE') {
-                    bgStyle = 'background-color: #E6E6FA !important; color: #000 !important;'; // Ungu Lavender
+                    bgStyle = 'background-color: #E6E6FA !important; color: #000 !important;'; 
                 } else if (upperSku.startsWith('V ') || upperSku.startsWith('V')) {
-                    bgStyle = 'background-color: #d27979 !important; color: #000 !important;'; // Merah Maroon Lembut (Soft Maroon)
+                    bgStyle = 'background-color: #d27979 !important; color: #000 !important;'; 
                 }
 
                 html += '<tr>';
@@ -4182,6 +4185,8 @@ return Plotly;
                 html += `<td class="text-red">${fN(gap)}</td>`;
                 html += `<td>${fN(estLanding)}</td>`;
                 html += `<td style="font-weight:bold;">${estAch.toFixed(1)}%</td>`;
+                // TAMPILKAN NILAI TARGET HARIAN (Di-bold supaya jelas)
+                html += `<td style="font-weight:bold; background-color:#fff2e6; color:#000;">${fN(targetPerHari)}</td>`;
                 
                 dates.forEach(day => {
                     let val = row[String(day)];
@@ -4199,11 +4204,15 @@ return Plotly;
             let totalGap = totalTarget > totalRealisasi ? totalTarget - totalRealisasi : 0;
             let totalLanding = totalAvg * targetHK;
             let totalEstAch = totalTarget > 0 ? (totalLanding / totalTarget) * 100 : 0;
+            // HITUNG GRAND TOTAL TARGET HARIAN
+            let totalTargetPerHari = targetHK > 0 ? (totalTarget / targetHK) : 0;
             
             html += '<tr style="background-color: #ffff00; font-weight:bold; color: #000;">';
             html += '<td style="text-align:right;">Grand Total</td>';
             html += `<td>${fN(totalRealisasi)}</td><td>${fN(totalTarget)}</td><td>${totalAch.toFixed(1)}%</td>`;
             html += `<td>${fN(totalAvg)}</td><td class="text-red">${fN(totalGap)}</td><td>${fN(totalLanding)}</td><td>${totalEstAch.toFixed(1)}%</td>`;
+            // TAMPILKAN GRAND TOTAL TARGET HARIAN
+            html += `<td>${fN(totalTargetPerHari)}</td>`;
             
             dates.forEach(day => {
                 let totalHari = aggregatedData.reduce((sum, r) => sum + (r[String(day)] || 0), 0);
@@ -4220,7 +4229,7 @@ return Plotly;
             if(fData.length === 0) return;
 
             let dates = raw.hari_list;
-            let targetHK = parseFloat(document.getElementById('val_target_hk').innerText) || 24;
+            let targetHK = parseFloat(document.getElementById('val_target_hk').innerText) || 26;
 
             let lastActiveDay = dates[0];
             for(let i = dates.length - 1; i >= 0; i--) {
@@ -4377,9 +4386,9 @@ return Plotly;
             let gM = v25.map((v,i) => v ? ((v26[i]-v)/v*100) : 0);
             let gMColors = gM.map(g => g < 0 ? '#FF0000' : (currentTheme === 'dark' ? '#39FF14' : '#0a5c02'));
             Plotly.newPlot('c_vol', [
-                {x:bulanOrder, y:v25, name:'2025', type:'bar', marker:{color: currentTheme==='dark'?'#FFFF00':'#b29600', line:{width:1, color:barOutlineColor}}, text:v25.map(fN), textposition:'outside', cliponaxis: false},
-                {x:bulanOrder, y:v26, name:'2026', type:'bar', marker:{color: currentTheme==='dark'?'#00BCFF':'#00729c', line:{width:1, color:barOutlineColor}}, text:v26.map(fN), textposition:'outside', cliponaxis: false},
-                {x:bulanOrder, y:gM, name:'Growth%', type:'scatter', yaxis:'y2', line:{shape:'spline', color:currentTheme==='dark'?'#39FF14':'#0a5c02', width:3}, mode:'lines+markers+text', text:gM.map(g => g!=0 ? g.toFixed(0)+'%' : ''), textposition:'top center', textfont:{color:gMColors, weight:'bold'}}
+                {x:bulanOrder, y:v25, name:'2025', type:'bar', marker:{color: currentTheme==='dark'?'#FFFF00':'#b29600', line:{width:1, color:barOutlineColor}}, text:v25.map(fN), textposition:'outside', cliponaxis: false, hovertext: v25.map(fN), hovertemplate: '%{x}<br>2025: <b>%{hovertext}</b><extra></extra>'},
+                {x:bulanOrder, y:v26, name:'2026', type:'bar', marker:{color: currentTheme==='dark'?'#00BCFF':'#00729c', line:{width:1, color:barOutlineColor}}, text:v26.map(fN), textposition:'outside', cliponaxis: false, hovertext: v26.map(fN), hovertemplate: '%{x}<br>2026: <b>%{hovertext}</b><extra></extra>'},
+                {x:bulanOrder, y:gM, name:'Growth%', type:'scatter', yaxis:'y2', line:{shape:'spline', color:currentTheme==='dark'?'#39FF14':'#0a5c02', width:3}, mode:'lines+markers+text', text:gM.map(g => g!=0 ? g.toFixed(0)+'%' : ''), textposition:'top center', textfont:{color:gMColors, weight:'bold'}, hovertemplate: '%{x}<br>Growth: <b>%{text}</b><extra></extra>'}
             ], { ...layoutBase, title: titleStyle('GRAFIK VOLUME YOY'), barmode:'group', yaxis2: {overlaying:'y', side:'right', showgrid:false, zeroline:false}, legend: {orientation:'h', y:-0.2} }, configBase);
             genTable('t_vol', v25, v26, bulanOrder, 'vol');
 
@@ -4389,9 +4398,9 @@ return Plotly;
             let gQ = q25.map((v,i) => v ? ((q26[i]-v)/v*100) : 0);
             let gQColors = gQ.map(g => g < 0 ? '#FF0000' : (currentTheme === 'dark' ? '#39FF14' : '#0a5c02'));
             Plotly.newPlot('c_qtr', [
-                {x:qtrOrder, y:q25, name:'2025', type:'bar', marker:{color:'#FF9F00', line:{width:1, color:barOutlineColor}}, text:q25.map(fN), textposition:'outside', cliponaxis: false},
-                {x:qtrOrder, y:q26, name:'2026', type:'bar', marker:{color:'#00FFFF', line:{width:1, color:barOutlineColor}}, text:q26.map(fN), textposition:'outside', cliponaxis: false},
-                {x:qtrOrder, y:gQ, name:'Growth%', type:'scatter', yaxis:'y2', line:{shape:'spline', color:currentTheme==='dark'?'#39FF14':'#0a5c02', width:3}, mode:'lines+markers+text', text:gQ.map(g => g.toFixed(1)+'%'), textposition:'top center', textfont:{color:gQColors, weight:'bold'}}
+                {x:qtrOrder, y:q25, name:'2025', type:'bar', marker:{color:'#FF9F00', line:{width:1, color:barOutlineColor}}, text:q25.map(fN), textposition:'outside', cliponaxis: false, hovertext: q25.map(fN), hovertemplate: '%{x}<br>2025: <b>%{hovertext}</b><extra></extra>'},
+                {x:qtrOrder, y:q26, name:'2026', type:'bar', marker:{color:'#00FFFF', line:{width:1, color:barOutlineColor}}, text:q26.map(fN), textposition:'outside', cliponaxis: false, hovertext: q26.map(fN), hovertemplate: '%{x}<br>2026: <b>%{hovertext}</b><extra></extra>'},
+                {x:qtrOrder, y:gQ, name:'Growth%', type:'scatter', yaxis:'y2', line:{shape:'spline', color:currentTheme==='dark'?'#39FF14':'#0a5c02', width:3}, mode:'lines+markers+text', text:gQ.map(g => g.toFixed(1)+'%'), textposition:'top center', textfont:{color:gQColors, weight:'bold'}, hovertemplate: '%{x}<br>Growth: <b>%{text}</b><extra></extra>'}
             ], { ...layoutBase, title: titleStyle('GRAFIK KUARTAL'), barmode:'group', yaxis2: {overlaying:'y', side:'right', showgrid:false, zeroline:false}, legend: {orientation:'h', y:-0.2} }, configBase);
             genTable('t_qtr', q25, q26, qtrOrder, 'vol');
 
@@ -4399,8 +4408,8 @@ return Plotly;
             let s25 = bulanOrder.map(b => { let rows = fV.filter(x => x.Tahun===2025 && x.Bulan_Str===b); let vol = rows.reduce((a,b)=>a+b.Qty,0); return rows.length > 0 ? vol/rows[0].HK : 0; });
             let s26 = bulanOrder.map(b => { let rows = fV.filter(x => x.Tahun===2026 && x.Bulan_Str===b); let vol = rows.reduce((a,b)=>a+b.Qty,0); return rows.length > 0 ? vol/rows[0].HK : 0; });
             Plotly.newPlot('c_spd', [
-                {x:bulanOrder, y:s25, name:'SPD 25', mode:'lines+markers+text', line:{shape:'spline', color:'#A020F0', width:4}, fill:'tozeroy', fillcolor:currentTheme==='dark'?'rgba(160, 32, 240, 0.3)':'rgba(160, 32, 240, 0.1)', text:s25.map(v => v>0?fN(v):''), textposition:'top center', cliponaxis: false},
-                {x:bulanOrder, y:s26, name:'SPD 26', mode:'lines+markers+text', line:{shape:'spline', color:currentTheme==='dark'?'#39FF14':'#0a5c02', width:4}, fill:'tozeroy', fillcolor:currentTheme==='dark'?'rgba(57, 255, 20, 0.3)':'rgba(10, 92, 2, 0.1)', text:s26.map(v => v>0?fN(v):''), textposition:'top center', cliponaxis: false}
+                {x:bulanOrder, y:s25, name:'SPD 25', mode:'lines+markers+text', line:{shape:'spline', color:'#A020F0', width:4}, fill:'tozeroy', fillcolor:currentTheme==='dark'?'rgba(160, 32, 240, 0.3)':'rgba(160, 32, 240, 0.1)', text:s25.map(v => v>0?fN(v):''), textposition:'top center', cliponaxis: false, hovertext: s25.map(fN), hovertemplate: '%{x}<br>SPD 2025: <b>%{hovertext}</b><extra></extra>'},
+                {x:bulanOrder, y:s26, name:'SPD 26', mode:'lines+markers+text', line:{shape:'spline', color:currentTheme==='dark'?'#39FF14':'#0a5c02', width:4}, fill:'tozeroy', fillcolor:currentTheme==='dark'?'rgba(57, 255, 20, 0.3)':'rgba(10, 92, 2, 0.1)', text:s26.map(v => v>0?fN(v):''), textposition:'top center', cliponaxis: false, hovertext: s26.map(fN), hovertemplate: '%{x}<br>SPD 2026: <b>%{hovertext}</b><extra></extra>'}
             ], { ...layoutBase, title: titleStyle('GRAFIK SPD'), xaxis: { showgrid: false, zeroline: false, range: [-0.5, 11.5] }, yaxis: { showgrid: false, zeroline: false } }, configBase);
             genTable('t_spd', s25, s26, bulanOrder, 'spd');
 
@@ -4411,9 +4420,9 @@ return Plotly;
             let tG = tV.map((v,i) => v ? (aV[i]/v*100) : 0);
             let tGColors = tG.map(g => g < 100 ? '#FF0000' : (currentTheme === 'dark' ? '#00FF00' : '#007c00'));
             Plotly.newPlot('c_tgt', [
-                {x:bulanFull, y:tV, name:'Target', type:'bar', marker:{color:currentTheme==='dark'?'rgba(255,255,0,0.15)':'rgba(178,150,0,0.25)', line:{width:1, color:barOutlineColor}}, text:tV.map(fN), textposition:'outside', cliponaxis: false},
-                {x:bulanFull, y:aV, name:'Actual', type:'bar', marker:{color:currentTheme==='dark'?'#39FF14':'#0a5c02', line:{width:1, color:barOutlineColor}}, text:aV.map(fN), textposition:'outside', cliponaxis: false},
-                {x:bulanFull, y:tG, name:'Ach%', type:'scatter', yaxis:'y2', mode:'lines+markers+text', text:tG.map(g => g>0?g.toFixed(1)+'%':''), textposition:'top center', line:{shape:'spline', color:achLineColor, width:3}, textfont:{color:tGColors, weight:'bold'}}
+                {x:bulanFull, y:tV, name:'Target', type:'bar', marker:{color:currentTheme==='dark'?'rgba(255,255,0,0.15)':'rgba(178,150,0,0.25)', line:{width:1, color:barOutlineColor}}, text:tV.map(fN), textposition:'outside', cliponaxis: false, hovertext: tV.map(fN), hovertemplate: '%{x}<br>Target: <b>%{hovertext}</b><extra></extra>'},
+                {x:bulanFull, y:aV, name:'Actual', type:'bar', marker:{color:currentTheme==='dark'?'#39FF14':'#0a5c02', line:{width:1, color:barOutlineColor}}, text:aV.map(fN), textposition:'outside', cliponaxis: false, hovertext: aV.map(fN), hovertemplate: '%{x}<br>Actual: <b>%{hovertext}</b><extra></extra>'},
+                {x:bulanFull, y:tG, name:'Ach%', type:'scatter', yaxis:'y2', mode:'lines+markers+text', text:tG.map(g => g>0?g.toFixed(1)+'%':''), textposition:'top center', line:{shape:'spline', color:achLineColor, width:3}, textfont:{color:tGColors, weight:'bold'}, hovertemplate: '%{x}<br>Ach: <b>%{text}</b><extra></extra>'}
             ], { ...layoutBase, title: titleStyle('ACTUAL VS TARGET 2026 (MONTHLY)'), barmode:'group', yaxis2: {overlaying:'y', side:'right', showgrid:false, range:[0, 150]} }, configBase);
             genTable('t_tgt', tV, aV, bulanFull, 'tgt');
 
@@ -4422,9 +4431,9 @@ return Plotly;
             let tGQ = tVQ.map((v,i) => v ? (aVQ[i]/v*100) : 0);
             let tGQColors = tGQ.map(g => g < 100 ? '#FF0000' : (currentTheme === 'dark' ? '#00FF00' : '#007c00'));
             Plotly.newPlot('c_tgt_qtr', [
-                {x:qtrOrder, y:tVQ, name:'Target', type:'bar', marker:{color:currentTheme==='dark'?'rgba(218,165,32,0.15)':'rgba(255,165,0,0.25)', line:{width:1, color:barOutlineColor}}, text:tVQ.map(fN), textposition:'outside', cliponaxis: false},
-                {x:qtrOrder, y:aVQ, name:'Actual', type:'bar', marker:{color:'#00FFFF', line:{width:1, color:barOutlineColor}}, text:aVQ.map(fN), textposition:'outside', cliponaxis: false},
-                {x:qtrOrder, y:tGQ, name:'Ach%', type:'scatter', yaxis:'y2', mode:'lines+markers+text', text:tGQ.map(g => g>0?g.toFixed(1)+'%':''), textposition:'top center', line:{shape:'spline', color:achLineColor, width:3}, textfont:{color:tGQColors, weight:'bold'}}
+                {x:qtrOrder, y:tVQ, name:'Target', type:'bar', marker:{color:currentTheme==='dark'?'rgba(218,165,32,0.15)':'rgba(255,165,0,0.25)', line:{width:1, color:barOutlineColor}}, text:tVQ.map(fN), textposition:'outside', cliponaxis: false, hovertext: tVQ.map(fN), hovertemplate: '%{x}<br>Target: <b>%{hovertext}</b><extra></extra>'},
+                {x:qtrOrder, y:aVQ, name:'Actual', type:'bar', marker:{color:'#00FFFF', line:{width:1, color:barOutlineColor}}, text:aVQ.map(fN), textposition:'outside', cliponaxis: false, hovertext: aVQ.map(fN), hovertemplate: '%{x}<br>Actual: <b>%{hovertext}</b><extra></extra>'},
+                {x:qtrOrder, y:tGQ, name:'Ach%', type:'scatter', yaxis:'y2', mode:'lines+markers+text', text:tGQ.map(g => g>0?g.toFixed(1)+'%':''), textposition:'top center', line:{shape:'spline', color:achLineColor, width:3}, textfont:{color:tGQColors, weight:'bold'}, hovertemplate: '%{x}<br>Ach: <b>%{text}</b><extra></extra>'}
             ], { ...layoutBase, title: titleStyle('ACTUAL VS TARGET 2026 (QUARTERLY)'), barmode:'group', yaxis2: {overlaying:'y', side:'right', showgrid:false, range:[0, 150]} }, configBase);
             genTable('t_tgt_qtr', tVQ, aVQ, qtrOrder, 'tgt');
 
@@ -4434,8 +4443,8 @@ return Plotly;
             let a26 = bulanOrder.map(b => fA.filter(x => x.Tahun===2026 && x.Bulan_Str===b).reduce((a,b)=>a+b.AO,0));
             let maxAO = Math.max(...a25, ...a26, 1);
             Plotly.newPlot('c_ao', [
-                {x:bulanOrder, y:a25, name:'AO 2025', fill:'tozeroy', fillcolor:'rgba(255, 165, 0, 0.2)', type:'scatter', line:{shape:'spline', width:3, color:'#FFA500'}, mode:'lines+markers+text', text:a25.map(v => v>0?fN(v):''), textposition:'top center', cliponaxis: false},
-                {x:bulanOrder, y:a26, name:'AO 2026', fill:'tozeroy', fillcolor:currentTheme==='dark'?'rgba(160, 32, 240, 0.3)':'rgba(160, 32, 240, 0.1)', type:'scatter', line:{shape:'spline', width:4, color:'#A020F0'}, mode:'lines+markers+text', text:a26.map(v => v>0?fN(v):''), textposition:'top center', cliponaxis: false}
+                {x:bulanOrder, y:a25, name:'AO 2025', fill:'tozeroy', fillcolor:'rgba(255, 165, 0, 0.2)', type:'scatter', line:{shape:'spline', width:3, color:'#FFA500'}, mode:'lines+markers+text', text:a25.map(v => v>0?fN(v):''), textposition:'top center', cliponaxis: false, hovertext: a25.map(fN), hovertemplate: '%{x}<br>AO 2025: <b>%{hovertext}</b><extra></extra>'},
+                {x:bulanOrder, y:a26, name:'AO 2026', fill:'tozeroy', fillcolor:currentTheme==='dark'?'rgba(160, 32, 240, 0.3)':'rgba(160, 32, 240, 0.1)', type:'scatter', line:{shape:'spline', width:4, color:'#A020F0'}, mode:'lines+markers+text', text:a26.map(v => v>0?fN(v):''), textposition:'top center', cliponaxis: false, hovertext: a26.map(fN), hovertemplate: '%{x}<br>AO 2026: <b>%{hovertext}</b><extra></extra>'}
             ], { 
                 ...layoutBase, title: titleStyle('ACTIVE OUTLET TREND'), 
                 xaxis: { showgrid: false, zeroline: false, type: 'category', range: [-0.6, 11.6] },
