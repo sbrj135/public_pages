@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+on-delay: <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -63,7 +63,7 @@
             z-index: 0;
         }
 
-        /* Fade In Out & Fly (Opacity ditingkatkan menjadi 45%) */
+        /* Fade In Out & Fly */
         .anim-fade-fly {
             animation: fadeFly 12s linear infinite;
         }
@@ -74,7 +74,7 @@
             100% { transform: translateY(-200px) scale(1.2); opacity: 0; }
         }
 
-        /* Berputar Searah Jarum Jam (Clockwise) & Fade (Opacity ditingkatkan menjadi 35%) */
+        /* Berputar Searah Jarum Jam */
         .anim-spin-fade {
             animation: spinFade 15s linear infinite;
         }
@@ -84,7 +84,7 @@
             100% { transform: rotate(360deg) scale(1.5); opacity: 0; }
         }
 
-        /* Fly In and Fly Out Random (Opacity ditingkatkan menjadi 45%) */
+        /* Fly In and Fly Out Random */
         .anim-fly-random {
             animation: flyRandom 18s ease-in-out infinite alternate;
         }
@@ -95,27 +95,27 @@
             100% { transform: translate(150px, 150px) rotate(45deg); opacity: 0; }
         }
 
-        /* --- EFEK 3D TERANG, GLOW EMAS & BORDER ANIMASI 3 WARNA (BIRU, ORANGE, HIJAU) TIAP FRAME --- */
+        /* --- EFEK 3D TERANG, GLOW EMAS & BORDER ANIMASI 3 WARNA --- */
         @keyframes borderThreeColors {
             0% {
-                border-color: #0078D4; /* Biru */
+                border-color: #0078D4; 
                 box-shadow: 0 12px 35px -5px rgba(255, 215, 0, 0.5), 0 0 25px rgba(0, 120, 212, 0.4), inset 0 1px 0 rgba(255,255,255,0.8);
             }
             33% {
-                border-color: #F97316; /* Orange */
+                border-color: #F97316; 
                 box-shadow: 0 12px 35px -5px rgba(255, 215, 0, 0.7), 0 0 25px rgba(249, 115, 22, 0.4), inset 0 1px 0 rgba(255,255,255,0.8);
             }
             66% {
-                border-color: #10B981; /* Hijau */
+                border-color: #10B981; 
                 box-shadow: 0 12px 35px -5px rgba(255, 215, 0, 0.5), 0 0 25px rgba(16, 185, 129, 0.4), inset 0 1px 0 rgba(255,255,255,0.8);
             }
             100% {
-                border-color: #0078D4; /* Kembali ke Biru */
+                border-color: #0078D4; 
                 box-shadow: 0 12px 35px -5px rgba(255, 215, 0, 0.5), 0 0 25px rgba(0, 120, 212, 0.4), inset 0 1px 0 rgba(255,255,255,0.8);
             }
         }
 
-        /* Menerapkan efek 3D terang & border animasi 3 warna ke semua elemen frame/section utama */
+        /* Menerapkan efek 3D */
         section, header {
             border-width: 2px !important;
             animation: borderThreeColors 8s linear infinite;
@@ -139,7 +139,7 @@
             background-color: #f0f7ff !important;
         }
 
-        #wa-link:not(.opacity-75) {
+        #wa-link-1:not(.opacity-75), #wa-link-2:not(.opacity-75) {
             animation: buttonPulse 2s infinite;
         }
         @keyframes buttonPulse {
@@ -175,39 +175,27 @@
 </head>
 <body class="text-gray-800 antialiased selection:bg-[#F2C811] selection:text-black relative">
 
-    <!-- KONTANER IKON ANIMASI (GRAFIK, KPI, DAX, MEASURE) -->
-    <!-- Menambahkan drop-shadow dan mempertebal stroke-width agar ikon lebih STRONG -->
+    <!-- KONTANER IKON ANIMASI -->
     <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        
-        <!-- Ikon Bar Chart (PBI) -->
         <svg class="bg-icon text-ms-blue anim-fade-fly w-32 h-32 drop-shadow-lg" style="left: 10%; top: 20%; animation-delay: 0s;" fill="currentColor" viewBox="0 0 24 24"><path d="M4 20h16v2H4zM6 10h3v10H6zm5-6h3v16h-3zm5 4h3v12h-3z"/></svg>
-        
-        <!-- Ikon DAX (fx) -->
         <svg class="bg-icon text-pbi-yellow anim-spin-fade w-40 h-40 drop-shadow-xl" style="right: 5%; top: 15%; animation-delay: 2s;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <!-- Teks DAX dibuat lebih tebal dengan font-weight 900 dan stroke -->
             <text x="3" y="18" font-family="serif" font-style="italic" font-size="14" font-weight="900" fill="currentColor" stroke="currentColor" stroke-width="0.5">fx</text>
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 4h16v16H4z"/>
         </svg>
-
-        <!-- Ikon Line Chart -->
         <svg class="bg-icon text-ms-blue anim-fly-random w-48 h-48 drop-shadow-xl" style="left: -5%; bottom: 10%; animation-delay: 4s;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 14l4-4 4 4 6-6"/>
         </svg>
-
-        <!-- Ikon KPI (Target/Bullseye) -->
         <svg class="bg-icon text-pbi-yellow anim-fade-fly w-28 h-28 drop-shadow-lg" style="right: 20%; bottom: 15%; animation-delay: 6s; animation-duration: 15s;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="10" />
             <circle cx="12" cy="12" r="6" />
             <circle cx="12" cy="12" r="2" fill="currentColor"/>
         </svg>
-
-        <!-- Ikon Measure (Kalkulator/Database) -->
         <svg class="bg-icon text-ms-blue anim-spin-fade w-24 h-24 drop-shadow-xl" style="left: 40%; top: 40%; animation-delay: 8s;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
         </svg>
     </div>
 
-    <!-- MAIN CONTENT KONTANER (Z-INDEX TINGGI AGAR TIDAK TERTUTUP ANIMASI) -->
+    <!-- MAIN CONTENT KONTANER -->
     <div class="relative z-10">
         <header class="bg-white/90 backdrop-blur-sm border border-gray-200 py-16 px-4 text-center shadow-sm relative overflow-hidden rounded-2xl max-w-3xl mx-auto my-6">
             <div class="absolute top-0 left-0 w-full h-1 bg-pbi-yellow"></div>
@@ -240,7 +228,6 @@
 
         <main class="max-w-3xl mx-auto px-4 py-6">
             
-            <!-- SECTION PRAKATA (MENGAPA HARUS UPSKILL) -->
             <section class="mb-10 bg-white/95 backdrop-blur-sm border border-gray-200 shadow-sm rounded-2xl p-6 md:p-8 fade-in-up" style="animation-delay: 0.1s;">
                 <h2 class="text-xl md:text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2 border-b border-gray-100 pb-4">
                     <span class="text-2xl">🚀</span> Mengapa "Jago Excel Saja" Tidak Lagi Cukup?
@@ -313,7 +300,6 @@
                 </div>
                 
                 <div class="space-y-3">
-                    
                     <label class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-gray-200 cursor-pointer">
                         <div class="flex items-center h-full pt-1.5">
                             <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#0078D4] cursor-pointer" value="Engine Power Query & M-Language" onchange="updatePriceAndLink()">
@@ -407,15 +393,27 @@
                 <h2 class="text-xl font-bold text-gray-900 mb-1">Amankan Slot Konsultasi Anda</h2>
                 <p class="text-sm text-gray-600 mb-6">Pilih materi dan klik tombol di bawah untuk pesan jadwal bimbingan.</p>
                 
-                <a id="wa-link" href="#" onclick="return checkSelection(event)"
-                   class="inline-flex items-center gap-3 bg-[#25D366] hover:bg-[#1DA851] text-white font-semibold py-3.5 px-8 rounded-xl shadow-md transition-all transform hover:-translate-y-0.5 opacity-75">
-                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.455L0 24zm6.59-4.846c1.62.962 3.377 1.47 5.357 1.471 5.43.002 9.85-4.415 9.853-9.845.002-2.63-1.023-5.101-2.887-6.964C17.052 1.892 14.58 1.861 11.957 1.86c-5.432 0-9.855 4.415-9.858 9.845-.001 1.959.514 3.876 1.492 5.547l-.991 3.621 3.701-.971zM17.52 14.33c-.302-.15-1.786-.882-2.057-.981-.271-.1-.469-.149-.667.149-.198.299-.767.981-.94 1.179-.173.199-.347.223-.649.074-.302-.15-1.274-.469-2.427-1.496-.897-.801-1.502-1.792-1.678-2.091-.176-.302-.019-.465.132-.614.136-.134.302-.352.453-.529.151-.177.201-.299.302-.497.101-.199.05-.373-.025-.523-.075-.149-.667-1.611-.913-2.203-.24-.579-.485-.501-.667-.51l-.571-.01c-.198 0-.52.074-.792.372-.272.299-1.04 1.018-1.04 2.483 0 1.464 1.064 2.88 1.213 3.079.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.786-.731 2.034-1.402.248-.671.248-1.242.173-1.36-.074-.119-.272-.198-.57-.347z"/>
-                    </svg>
-                    Pesan & Hubungi WhatsApp
-                </a>
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                    <!-- Tombol 1 -->
+                    <a id="wa-link-1" href="#" onclick="return checkSelection(event)"
+                       class="inline-flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#1DA851] text-white font-semibold py-3.5 px-8 rounded-xl shadow-md transition-all transform hover:-translate-y-0.5 opacity-75 w-full sm:w-auto">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.455L0 24zm6.59-4.846c1.62.962 3.377 1.47 5.357 1.471 5.43.002 9.85-4.415 9.853-9.845.002-2.63-1.023-5.101-2.887-6.964C17.052 1.892 14.58 1.861 11.957 1.86c-5.432 0-9.855 4.415-9.858 9.845-.001 1.959.514 3.876 1.492 5.547l-.991 3.621 3.701-.971zM17.52 14.33c-.302-.15-1.786-.882-2.057-.981-.271-.1-.469-.149-.667.149-.198.299-.767.981-.94 1.179-.173.199-.347.223-.649.074-.302-.15-1.274-.469-2.427-1.496-.897-.801-1.502-1.792-1.678-2.091-.176-.302-.019-.465.132-.614.136-.134.302-.352.453-.529.151-.177.201-.299.302-.497.101-.199.05-.373-.025-.523-.075-.149-.667-1.611-.913-2.203-.24-.579-.485-.501-.667-.51l-.571-.01c-.198 0-.52.074-.792.372-.272.299-1.04 1.018-1.04 2.483 0 1.464 1.064 2.88 1.213 3.079.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.786-.731 2.034-1.402.248-.671.248-1.242.173-1.36-.074-.119-.272-.198-.57-.347z"/>
+                        </svg>
+                        Hotline 1
+                    </a>
+
+                    <!-- Tombol 2 -->
+                    <a id="wa-link-2" href="#" onclick="return checkSelection(event)"
+                       class="inline-flex items-center justify-center gap-3 bg-[#128C7E] hover:bg-[#075E54] text-white font-semibold py-3.5 px-8 rounded-xl shadow-md transition-all transform hover:-translate-y-0.5 opacity-75 w-full sm:w-auto">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.455L0 24zm6.59-4.846c1.62.962 3.377 1.47 5.357 1.471 5.43.002 9.85-4.415 9.853-9.845.002-2.63-1.023-5.101-2.887-6.964C17.052 1.892 14.58 1.861 11.957 1.86c-5.432 0-9.855 4.415-9.858 9.845-.001 1.959.514 3.876 1.492 5.547l-.991 3.621 3.701-.971zM17.52 14.33c-.302-.15-1.786-.882-2.057-.981-.271-.1-.469-.149-.667.149-.198.299-.767.981-.94 1.179-.173.199-.347.223-.649.074-.302-.15-1.274-.469-2.427-1.496-.897-.801-1.502-1.792-1.678-2.091-.176-.302-.019-.465.132-.614.136-.134.302-.352.453-.529.151-.177.201-.299.302-.497.101-.199.05-.373-.025-.523-.075-.149-.667-1.611-.913-2.203-.24-.579-.485-.501-.667-.51l-.571-.01c-.198 0-.52.074-.792.372-.272.299-1.04 1.018-1.04 2.483 0 1.464 1.064 2.88 1.213 3.079.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.786-.731 2.034-1.402.248-.671.248-1.242.173-1.36-.074-.119-.272-.198-.57-.347z"/>
+                        </svg>
+                        Hotline 2
+                    </a>
+                </div>
                 
-                <p class="text-xs text-gray-500 mt-3 font-semibold tracking-wide">Hotline Tutorial</p>
+                <p class="text-xs text-gray-500 mt-5 font-semibold tracking-wide">Hotline Tutorial</p>
             </section>
 
         </main>
@@ -432,8 +430,7 @@
             let selectedCount = 0;
             let selectedMaterials = [];
 
-            // Kumpulkan materi yang diceklis
-            checkboxes.forEach((cb, index) => {
+            checkboxes.forEach((cb) => {
                 if (cb.checked) {
                     selectedCount++;
                     selectedMaterials.push(`- ${cb.value}`);
@@ -442,16 +439,16 @@
 
             const priceElement = document.getElementById('dynamic-price');
             const descElement = document.getElementById('price-desc');
-            const waLinkElement = document.getElementById('wa-link');
+            const waLink1 = document.getElementById('wa-link-1');
+            const waLink2 = document.getElementById('wa-link-2');
             
             let priceText = "Pilih Materi";
             let priceValue = 0;
 
-            // Logika Harga
             if (selectedCount === 1) {
                 priceText = "Rp 150.000";
                 priceValue = "150.000";
-                descElement.innerText = "Per Sesi Pembelajaran Privat(@sesi durasi 2-3 Jam)";
+                descElement.innerText = "Per Sesi Pembelajaran Privat (@sesi durasi 2-3 Jam)";
             } else if (selectedCount >= 2 && selectedCount <= 4) {
                 priceText = "Rp 200.000";
                 priceValue = "200.000";
@@ -464,22 +461,26 @@
                 descElement.innerText = "Ceklis materi di atas untuk melihat harga";
             }
 
-            // Update UI Harga
             priceElement.innerText = priceText;
 
-            // Update Link WhatsApp dengan Format Teks Dinamis
             if (selectedCount > 0) {
-                let message = `Hai Kak, saya tertarik dengan Tutorial Jarak Jauh Pemodelan Data.\n\nSaya ingin memesan materi berikut:\n${selectedMaterials.join('\n')}\n\n*Estimasi Biaya: Rp ${priceValue} per sesi.*`;
-                let waUrl = `https://wa.me/628562500238?text=${encodeURIComponent(message)}`;
-                waLinkElement.href = waUrl;
-                waLinkElement.classList.remove('opacity-75');
+                // Hotline 1 (Admin Utama)
+                let msg1 = `Hai Kak, saya tertarik dengan Tutorial Jarak Jauh Pemodelan Data.\n\nSaya ingin memesan materi berikut:\n${selectedMaterials.join('\n')}\n\n*Estimasi Biaya: Rp ${priceValue} per sesi.*`;
+                waLink1.href = `https://wa.me/628562500238?text=${encodeURIComponent(msg1)}`;
+                waLink1.classList.remove('opacity-75');
+
+                // Hotline 2 (Kak Riya)
+                let msg2 = `Hai Kak Riya, saya tertarik dengan Tutorial Jarak Jauh Pemodelan Data.\n\nSaya ingin memesan materi berikut:\n${selectedMaterials.join('\n')}\n\n*Estimasi Biaya: Rp ${priceValue} per sesi.*`;
+                waLink2.href = `https://wa.me/6281574444899?text=${encodeURIComponent(msg2)}`;
+                waLink2.classList.remove('opacity-75');
             } else {
-                waLinkElement.href = "#";
-                waLinkElement.classList.add('opacity-75');
+                waLink1.href = "#";
+                waLink1.classList.add('opacity-75');
+                waLink2.href = "#";
+                waLink2.classList.add('opacity-75');
             }
         }
 
-        // Mencegah klik tombol jika belum ada materi yang dipilih
         function checkSelection(event) {
             const checkboxes = document.querySelectorAll('.materi-checkbox');
             let isChecked = false;
@@ -495,8 +496,8 @@
             return true;
         }
 
-        // Jalankan saat halaman pertama kali dimuat
         window.onload = updatePriceAndLink;
     </script>
 </body>
 </html>
+;"
