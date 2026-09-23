@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -300,9 +300,10 @@
                 </div>
                 
                 <div class="space-y-3">
+                    <!-- PAKET REGULER -->
                     <label class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-gray-200 cursor-pointer">
                         <div class="flex items-center h-full pt-1.5">
-                            <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#0078D4] cursor-pointer" value="Engine Power Query & M-Language" onchange="updatePriceAndLink()">
+                            <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#0078D4] cursor-pointer" value="Engine Power Query & M-Language" data-kategori="reguler" onchange="updatePriceAndLink()">
                         </div>
                         <span class="text-lg bg-[#F2C811]/10 text-yellow-700 p-2.5 rounded-lg font-mono font-bold">01</span>
                         <div>
@@ -313,7 +314,7 @@
 
                     <label class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-gray-200 cursor-pointer">
                         <div class="flex items-center h-full pt-1.5">
-                            <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#0078D4] cursor-pointer" value="Arsitektur Data Model & Skalabilitas" onchange="updatePriceAndLink()">
+                            <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#0078D4] cursor-pointer" value="Arsitektur Data Model & Skalabilitas" data-kategori="reguler" onchange="updatePriceAndLink()">
                         </div>
                         <span class="text-lg bg-[#F2C811]/10 text-yellow-700 p-2.5 rounded-lg font-mono font-bold">02</span>
                         <div>
@@ -324,7 +325,7 @@
 
                     <label class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-gray-200 cursor-pointer">
                         <div class="flex items-center h-full pt-1.5">
-                            <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#0078D4] cursor-pointer" value="Optimasi Relasi Power Pivot" onchange="updatePriceAndLink()">
+                            <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#0078D4] cursor-pointer" value="Optimasi Relasi Power Pivot" data-kategori="reguler" onchange="updatePriceAndLink()">
                         </div>
                         <span class="text-lg bg-[#F2C811]/10 text-yellow-700 p-2.5 rounded-lg font-mono font-bold">03</span>
                         <div>
@@ -335,7 +336,7 @@
 
                     <label class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-gray-200 cursor-pointer">
                         <div class="flex items-center h-full pt-1.5">
-                            <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#0078D4] cursor-pointer" value="Kalkulasi Tingkat Lanjut via Rumus DAX" onchange="updatePriceAndLink()">
+                            <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#0078D4] cursor-pointer" value="Kalkulasi Tingkat Lanjut via Rumus DAX" data-kategori="reguler" onchange="updatePriceAndLink()">
                         </div>
                         <span class="text-lg bg-[#F2C811]/10 text-yellow-700 p-2.5 rounded-lg font-mono font-bold">04</span>
                         <div>
@@ -346,12 +347,41 @@
 
                     <label class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-gray-200 cursor-pointer">
                         <div class="flex items-center h-full pt-1.5">
-                            <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#0078D4] cursor-pointer" value="Manipulasi Eksponensial Python Pandas" onchange="updatePriceAndLink()">
+                            <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#0078D4] cursor-pointer" value="Manipulasi Eksponensial Python Pandas" data-kategori="reguler" onchange="updatePriceAndLink()">
                         </div>
                         <span class="text-lg bg-blue-50 text-ms-blue p-2.5 rounded-lg font-mono font-bold">05</span>
                         <div>
                             <h3 class="font-bold text-gray-900 text-base">Manipulasi Eksponensial Python Pandas</h3>
                             <p class="text-sm text-gray-500 mt-0.5">Integrasi skrip Python ke dalam ekosistem olah data untuk pembersihan ekstrem dan aggregasi kilat.</p>
+                        </div>
+                    </label>
+
+                    <!-- PAKET EKSTRA / PREMIUM -->
+                    <label class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-gray-200 cursor-pointer mt-4 border-t border-gray-100 pt-4">
+                        <div class="flex items-center h-full pt-1.5">
+                            <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#E8B600] cursor-pointer" value="Machine Learning Prediksi (Scikit Learn Linear Regresi)" data-kategori="premium" data-harga="300000" onchange="updatePriceAndLink()">
+                        </div>
+                        <span class="text-lg bg-gradient-to-br from-[#E8B600] to-orange-400 text-white p-2.5 rounded-lg font-mono font-bold">06</span>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-base flex items-center gap-2 flex-wrap">
+                                Machine Learning Prediksi 
+                                <span class="text-[10px] bg-red-100 text-red-600 px-2 py-0.5 rounded font-bold uppercase tracking-wide">Modul Ekstra (300k)</span>
+                            </h3>
+                            <p class="text-sm text-gray-500 mt-0.5">Pemodelan prediktif berbasis data masa lalu menggunakan algoritma regresi linear dari Scikit-Learn.</p>
+                        </div>
+                    </label>
+
+                    <label class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-gray-200 cursor-pointer">
+                        <div class="flex items-center h-full pt-1.5">
+                            <input type="checkbox" class="materi-checkbox w-5 h-5 accent-[#E8B600] cursor-pointer" value="Frontend Web Reporting (Python Flask Jinja, HTML SSR, Serverless)" data-kategori="premium" data-harga="400000" onchange="updatePriceAndLink()">
+                        </div>
+                        <span class="text-lg bg-gradient-to-br from-[#E8B600] to-orange-400 text-white p-2.5 rounded-lg font-mono font-bold">07</span>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-base flex items-center gap-2 flex-wrap">
+                                Web Reporting Frontend 
+                                <span class="text-[10px] bg-red-100 text-red-600 px-2 py-0.5 rounded font-bold uppercase tracking-wide">Modul Ekstra (400k)</span>
+                            </h3>
+                            <p class="text-sm text-gray-500 mt-0.5">Pengembangan web dashboard interaktif dengan Python Flask, Jinja, HTML SSR, dan deployment Serverless.</p>
                         </div>
                     </label>
                 </div>
@@ -427,13 +457,20 @@
     <script>
         function updatePriceAndLink() {
             const checkboxes = document.querySelectorAll('.materi-checkbox');
-            let selectedCount = 0;
+            let regularCount = 0;
+            let premiumCount = 0;
+            let premiumPrice = 0;
             let selectedMaterials = [];
 
             checkboxes.forEach((cb) => {
                 if (cb.checked) {
-                    selectedCount++;
                     selectedMaterials.push(`- ${cb.value}`);
+                    if (cb.dataset.kategori === 'premium') {
+                        premiumPrice += parseInt(cb.dataset.harga);
+                        premiumCount++;
+                    } else {
+                        regularCount++;
+                    }
                 }
             });
 
@@ -442,35 +479,50 @@
             const waLink1 = document.getElementById('wa-link-1');
             const waLink2 = document.getElementById('wa-link-2');
             
-            let priceText = "Pilih Materi";
-            let priceValue = 0;
+            let regularPrice = 0;
+            let descText = "";
 
-            if (selectedCount === 1) {
-                priceText = "Rp 150.000";
-                priceValue = "150.000";
-                descElement.innerText = "Per Sesi Pembelajaran Privat (@sesi durasi 2-3 Jam)";
-            } else if (selectedCount >= 2 && selectedCount <= 4) {
-                priceText = "Rp 200.000";
-                priceValue = "200.000";
-                descElement.innerText = "Per Sesi Pembelajaran Privat (Paket Reguler @sesi durasi 2-3 Jam)";
-            } else if (selectedCount === 5) {
-                priceText = "Rp 250.000";
-                priceValue = "250.000";
-                descElement.innerText = "Per Sesi Pembelajaran Privat (Paket Lengkap @sesi durasi 2-3 Jam)";
-            } else {
-                descElement.innerText = "Ceklis materi di atas untuk melihat harga";
+            // Kalkulasi Paket Reguler
+            if (regularCount === 1) {
+                regularPrice = 150000;
+                descText = "Paket Reguler (1 Materi)";
+            } else if (regularCount >= 2 && regularCount <= 4) {
+                regularPrice = 200000;
+                descText = "Paket Reguler (2-4 Materi)";
+            } else if (regularCount === 5) {
+                regularPrice = 250000;
+                descText = "Paket Reguler Lengkap (5 Materi)";
             }
 
-            priceElement.innerText = priceText;
+            // Atur Label Deskripsi jika ada Premium
+            if (premiumCount > 0) {
+                if (regularCount > 0) {
+                    descText += ` + Modul Ekstra (@sesi 2-3 Jam)`;
+                } else {
+                    descText = "Modul Ekstra Spesifik (@sesi 2-3 Jam)";
+                }
+            } else if (regularCount > 0) {
+                descText += " (@sesi durasi 2-3 Jam)";
+            } else {
+                descText = "Ceklis materi di atas untuk melihat harga";
+            }
 
-            if (selectedCount > 0) {
+            // Total Biaya
+            let totalBiaya = regularPrice + premiumPrice;
+            let formattedTotal = totalBiaya.toLocaleString('id-ID');
+
+            priceElement.innerText = totalBiaya > 0 ? "Rp " + formattedTotal : "Pilih Materi";
+            descElement.innerText = descText;
+
+            // Update WA Links
+            if (totalBiaya > 0) {
                 // Hotline 1 (Admin Utama)
-                let msg1 = `Hai Kak, saya tertarik dengan Tutorial Jarak Jauh Pemodelan Data.\n\nSaya ingin memesan materi berikut:\n${selectedMaterials.join('\n')}\n\n*Estimasi Biaya: Rp ${priceValue} per sesi.*`;
+                let msg1 = `Hai Kak, saya tertarik dengan Tutorial Jarak Jauh Pemodelan Data.\n\nSaya ingin memesan materi berikut:\n${selectedMaterials.join('\n')}\n\n*Estimasi Biaya: Rp ${formattedTotal} per sesi.*`;
                 waLink1.href = `https://wa.me/628562500238?text=${encodeURIComponent(msg1)}`;
                 waLink1.classList.remove('opacity-75');
 
                 // Hotline 2 (Kak Riya)
-                let msg2 = `Hai Kak Riya, saya tertarik dengan Tutorial Jarak Jauh Pemodelan Data.\n\nSaya ingin memesan materi berikut:\n${selectedMaterials.join('\n')}\n\n*Estimasi Biaya: Rp ${priceValue} per sesi.*`;
+                let msg2 = `Hai Kak Riya, saya tertarik dengan Tutorial Jarak Jauh Pemodelan Data.\n\nSaya ingin memesan materi berikut:\n${selectedMaterials.join('\n')}\n\n*Estimasi Biaya: Rp ${formattedTotal} per sesi.*`;
                 waLink2.href = `https://wa.me/6281574444899?text=${encodeURIComponent(msg2)}`;
                 waLink2.classList.remove('opacity-75');
             } else {
@@ -500,4 +552,3 @@
     </script>
 </body>
 </html>
-;"
