@@ -4253,12 +4253,17 @@ return Plotly;
             const gridColor = currentTheme === 'dark' ? '#333' : '#e0e0e0';
             const titleColor = currentTheme === 'dark' ? '#39FF14' : '#0a5c02';
             
+            // 🔥 TAMBAHAN UNTUK LAYOUT GRAFIK HARIAN (KUNCI ZOOM/GESER) 🔥
             const layoutBase = { 
                 paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'rgba(0,0,0,0)', 
                 font:{color: fontColor, size:10}, margin:{t:80,b:80,l:50,r:50},
-                xaxis: { showgrid: false, tickangle: 0 }, 
-                yaxis: { showgrid: true, gridcolor: gridColor, zeroline: false }
+                xaxis: { showgrid: false, tickangle: 0, fixedrange: true }, 
+                yaxis: { showgrid: true, gridcolor: gridColor, zeroline: false, fixedrange: true },
+                dragmode: false
             };
+
+            // 🔥 TAMBAHAN CONFIG UNTUK GRAFIK HARIAN (HANYA TOMBOL DOWNLOAD) 🔥
+            const configBase = { responsive: true, displayModeBar: true, modeBarButtons: [['toImage']], displaylogo: false };
 
             let traceReal = { 
                 x: skusWrap, y: realHarian, name: 'Realisasi Harian', type: 'bar', 
@@ -4285,11 +4290,12 @@ return Plotly;
                 title: {text: 'Realisasi Vs Tgt Harian (Update Tgl ' + lastActiveDay + ')', font: {color: titleColor, size:16}},
                 barmode: 'group',
                 margin: {t:100, b:10, l:120, r:50},
-                xaxis: { visible: false },
-                yaxis2: { overlaying: 'y', side: 'right', showgrid: false, range: [0, Math.max(...achHarian, 120) * 1.2] },
+                xaxis: { visible: false, fixedrange: true },
+                yaxis2: { overlaying: 'y', side: 'right', showgrid: false, range: [0, Math.max(...achHarian, 120) * 1.2], fixedrange: true },
                 legend: { orientation: 'h', y: 1.05, x: 0.5, xanchor: 'center' }
             };
-            Plotly.newPlot('c_grafik_harian_1', [traceReal, traceTgt, traceAch], layout1, {responsive: true});
+            // 🔥 Terapkan configBase di sini 🔥
+            Plotly.newPlot('c_grafik_harian_1', [traceReal, traceTgt, traceAch], layout1, configBase);
 
             let htmlTable = '<table class="excel-table" style="font-size:10px; width:calc(100% - 50px); table-layout:fixed; border-collapse:collapse; margin-top: 0px;">';
             htmlTable += '<thead><tr><th style="width:120px; background:#b3e0ff; color:#000; font-size:11px; vertical-align:middle; font-weight:bold; border:1px solid #000;">SKU</th>';
@@ -4329,9 +4335,10 @@ return Plotly;
             let layout2 = { 
                 ...layoutBase, 
                 title: {text: 'ACH BLN INI %', font: {color: titleColor, size:16}},
-                yaxis: { ...layoutBase.yaxis, range: [0, Math.max(...achBulan, 100) * 1.2] }
+                yaxis: { ...layoutBase.yaxis, range: [0, Math.max(...achBulan, 100) * 1.2], fixedrange: true }
             };
-            Plotly.newPlot('c_grafik_harian_2', [traceAchBln], layout2, {responsive: true});
+            // 🔥 Terapkan configBase di sini 🔥
+            Plotly.newPlot('c_grafik_harian_2', [traceAchBln], layout2, configBase);
         }
 
         function update() {
@@ -4345,14 +4352,22 @@ return Plotly;
 
             const titleStyle = (txt) => ({ text: txt, x: 0.5, xanchor: 'center', y: 0.95, yanchor: 'top', font: { color: titleColor, size: 16 } });
 
+            // 🔥 TAMBAHAN UNTUK LAYOUT UTAMA (KUNCI ZOOM/GESER) 🔥
             const layoutBase = { 
                 paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'rgba(0,0,0,0)', 
                 font:{color: fontColor, size:11}, margin:{t:100,b:50,l:50,r:50},
-                xaxis: { showgrid: true, gridcolor: gridColor, zeroline: false },
-                yaxis: { showgrid: true, gridcolor: gridColor, zeroline: false }
+                xaxis: { showgrid: true, gridcolor: gridColor, zeroline: false, fixedrange: true },
+                yaxis: { showgrid: true, gridcolor: gridColor, zeroline: false, fixedrange: true },
+                dragmode: false
             };
 
-            const configBase = { responsive: true };
+            // 🔥 TAMBAHAN CONFIG UTAMA (HANYA TOMBOL DOWNLOAD) 🔥
+            const configBase = { 
+                responsive: true,
+                displayModeBar: true,
+                modeBarButtons: [['toImage']],
+                displaylogo: false
+            };
 
             // 1. VOLUME MONTHLY
             let fV = raw.vol.filter(x => x.NAMA_DEPO === d && (s==='ALL'||x.SEGMEN===s) && (k==='ALL'||x['SKU 1']===k));
@@ -4364,7 +4379,7 @@ return Plotly;
                 {x:bulanOrder, y:v25, name:'2025', type:'bar', marker:{color: currentTheme==='dark'?'#FFFF00':'#b29600', line:{width:1, color:barOutlineColor}}, text:v25.map(fN), textposition:'outside', cliponaxis: false, hovertext: v25.map(fN), hovertemplate: '%{x}<br>2025: <b>%{hovertext}</b><extra></extra>'},
                 {x:bulanOrder, y:v26, name:'2026', type:'bar', marker:{color: currentTheme==='dark'?'#00BCFF':'#00729c', line:{width:1, color:barOutlineColor}}, text:v26.map(fN), textposition:'outside', cliponaxis: false, hovertext: v26.map(fN), hovertemplate: '%{x}<br>2026: <b>%{hovertext}</b><extra></extra>'},
                 {x:bulanOrder, y:gM, name:'Growth%', type:'scatter', yaxis:'y2', line:{shape:'spline', color:currentTheme==='dark'?'#39FF14':'#0a5c02', width:3}, mode:'lines+markers+text', text:gM.map(g => g!=0 ? g.toFixed(0)+'%' : ''), textposition:'top center', textfont:{color:gMColors, weight:'bold'}, hovertemplate: '%{x}<br>Growth: <b>%{text}</b><extra></extra>'}
-            ], { ...layoutBase, title: titleStyle('GRAFIK VOLUME YOY'), barmode:'group', yaxis2: {overlaying:'y', side:'right', showgrid:false, zeroline:false}, legend: {orientation:'h', y:-0.2} }, configBase);
+            ], { ...layoutBase, title: titleStyle('GRAFIK VOLUME YOY'), barmode:'group', yaxis2: {overlaying:'y', side:'right', showgrid:false, zeroline:false, fixedrange: true}, legend: {orientation:'h', y:-0.2} }, configBase);
             genTable('t_vol', v25, v26, bulanOrder, 'vol');
 
             // 2. VOLUME QUARTERLY
@@ -4376,7 +4391,7 @@ return Plotly;
                 {x:qtrOrder, y:q25, name:'2025', type:'bar', marker:{color:'#FF9F00', line:{width:1, color:barOutlineColor}}, text:q25.map(fN), textposition:'outside', cliponaxis: false, hovertext: q25.map(fN), hovertemplate: '%{x}<br>2025: <b>%{hovertext}</b><extra></extra>'},
                 {x:qtrOrder, y:q26, name:'2026', type:'bar', marker:{color:'#00FFFF', line:{width:1, color:barOutlineColor}}, text:q26.map(fN), textposition:'outside', cliponaxis: false, hovertext: q26.map(fN), hovertemplate: '%{x}<br>2026: <b>%{hovertext}</b><extra></extra>'},
                 {x:qtrOrder, y:gQ, name:'Growth%', type:'scatter', yaxis:'y2', line:{shape:'spline', color:currentTheme==='dark'?'#39FF14':'#0a5c02', width:3}, mode:'lines+markers+text', text:gQ.map(g => g.toFixed(1)+'%'), textposition:'top center', textfont:{color:gQColors, weight:'bold'}, hovertemplate: '%{x}<br>Growth: <b>%{text}</b><extra></extra>'}
-            ], { ...layoutBase, title: titleStyle('GRAFIK KUARTAL'), barmode:'group', yaxis2: {overlaying:'y', side:'right', showgrid:false, zeroline:false}, legend: {orientation:'h', y:-0.2} }, configBase);
+            ], { ...layoutBase, title: titleStyle('GRAFIK KUARTAL'), barmode:'group', yaxis2: {overlaying:'y', side:'right', showgrid:false, zeroline:false, fixedrange: true}, legend: {orientation:'h', y:-0.2} }, configBase);
             genTable('t_qtr', q25, q26, qtrOrder, 'vol');
 
             // 3. SPD
@@ -4385,7 +4400,7 @@ return Plotly;
             Plotly.newPlot('c_spd', [
                 {x:bulanOrder, y:s25, name:'SPD 25', mode:'lines+markers+text', line:{shape:'spline', color:'#A020F0', width:4}, fill:'tozeroy', fillcolor:currentTheme==='dark'?'rgba(160, 32, 240, 0.3)':'rgba(160, 32, 240, 0.1)', text:s25.map(v => v>0?fN(v):''), textposition:'top center', cliponaxis: false, hovertext: s25.map(fN), hovertemplate: '%{x}<br>SPD 2025: <b>%{hovertext}</b><extra></extra>'},
                 {x:bulanOrder, y:s26, name:'SPD 26', mode:'lines+markers+text', line:{shape:'spline', color:currentTheme==='dark'?'#39FF14':'#0a5c02', width:4}, fill:'tozeroy', fillcolor:currentTheme==='dark'?'rgba(57, 255, 20, 0.3)':'rgba(10, 92, 2, 0.1)', text:s26.map(v => v>0?fN(v):''), textposition:'top center', cliponaxis: false, hovertext: s26.map(fN), hovertemplate: '%{x}<br>SPD 2026: <b>%{hovertext}</b><extra></extra>'}
-            ], { ...layoutBase, title: titleStyle('GRAFIK SPD'), xaxis: { showgrid: false, zeroline: false, range: [-0.5, 11.5] }, yaxis: { showgrid: false, zeroline: false } }, configBase);
+            ], { ...layoutBase, title: titleStyle('GRAFIK SPD'), xaxis: { showgrid: false, zeroline: false, range: [-0.5, 11.5], fixedrange: true }, yaxis: { showgrid: false, zeroline: false, fixedrange: true } }, configBase);
             genTable('t_spd', s25, s26, bulanOrder, 'spd');
 
             // 4. TARGET
@@ -4398,7 +4413,7 @@ return Plotly;
                 {x:bulanFull, y:tV, name:'Target', type:'bar', marker:{color:currentTheme==='dark'?'rgba(255,255,0,0.15)':'rgba(178,150,0,0.25)', line:{width:1, color:barOutlineColor}}, text:tV.map(fN), textposition:'outside', cliponaxis: false, hovertext: tV.map(fN), hovertemplate: '%{x}<br>Target: <b>%{hovertext}</b><extra></extra>'},
                 {x:bulanFull, y:aV, name:'Actual', type:'bar', marker:{color:currentTheme==='dark'?'#39FF14':'#0a5c02', line:{width:1, color:barOutlineColor}}, text:aV.map(fN), textposition:'outside', cliponaxis: false, hovertext: aV.map(fN), hovertemplate: '%{x}<br>Actual: <b>%{hovertext}</b><extra></extra>'},
                 {x:bulanFull, y:tG, name:'Ach%', type:'scatter', yaxis:'y2', mode:'lines+markers+text', text:tG.map(g => g>0?g.toFixed(1)+'%':''), textposition:'top center', line:{shape:'spline', color:achLineColor, width:3}, textfont:{color:tGColors, weight:'bold'}, hovertemplate: '%{x}<br>Ach: <b>%{text}</b><extra></extra>'}
-            ], { ...layoutBase, title: titleStyle('ACTUAL VS TARGET 2026 (MONTHLY)'), barmode:'group', yaxis2: {overlaying:'y', side:'right', showgrid:false, range:[0, 150]} }, configBase);
+            ], { ...layoutBase, title: titleStyle('ACTUAL VS TARGET 2026 (MONTHLY)'), barmode:'group', yaxis2: {overlaying:'y', side:'right', showgrid:false, range:[0, 150], fixedrange: true} }, configBase);
             genTable('t_tgt', tV, aV, bulanFull, 'tgt');
 
             let tVQ = qtrOrder.map(q => fT.filter(x => monthToQtr[x.Bulan_Full]===q).reduce((a,b)=>a+b.TGT,0));
@@ -4409,7 +4424,7 @@ return Plotly;
                 {x:qtrOrder, y:tVQ, name:'Target', type:'bar', marker:{color:currentTheme==='dark'?'rgba(218,165,32,0.15)':'rgba(255,165,0,0.25)', line:{width:1, color:barOutlineColor}}, text:tVQ.map(fN), textposition:'outside', cliponaxis: false, hovertext: tVQ.map(fN), hovertemplate: '%{x}<br>Target: <b>%{hovertext}</b><extra></extra>'},
                 {x:qtrOrder, y:aVQ, name:'Actual', type:'bar', marker:{color:'#00FFFF', line:{width:1, color:barOutlineColor}}, text:aVQ.map(fN), textposition:'outside', cliponaxis: false, hovertext: aVQ.map(fN), hovertemplate: '%{x}<br>Actual: <b>%{hovertext}</b><extra></extra>'},
                 {x:qtrOrder, y:tGQ, name:'Ach%', type:'scatter', yaxis:'y2', mode:'lines+markers+text', text:tGQ.map(g => g>0?g.toFixed(1)+'%':''), textposition:'top center', line:{shape:'spline', color:achLineColor, width:3}, textfont:{color:tGQColors, weight:'bold'}, hovertemplate: '%{x}<br>Ach: <b>%{text}</b><extra></extra>'}
-            ], { ...layoutBase, title: titleStyle('ACTUAL VS TARGET 2026 (QUARTERLY)'), barmode:'group', yaxis2: {overlaying:'y', side:'right', showgrid:false, range:[0, 150]} }, configBase);
+            ], { ...layoutBase, title: titleStyle('ACTUAL VS TARGET 2026 (QUARTERLY)'), barmode:'group', yaxis2: {overlaying:'y', side:'right', showgrid:false, range:[0, 150], fixedrange: true} }, configBase);
             genTable('t_tgt_qtr', tVQ, aVQ, qtrOrder, 'tgt');
 
             // 5. AO
@@ -4422,8 +4437,8 @@ return Plotly;
                 {x:bulanOrder, y:a26, name:'AO 2026', fill:'tozeroy', fillcolor:currentTheme==='dark'?'rgba(160, 32, 240, 0.3)':'rgba(160, 32, 240, 0.1)', type:'scatter', line:{shape:'spline', width:4, color:'#A020F0'}, mode:'lines+markers+text', text:a26.map(v => v>0?fN(v):''), textposition:'top center', cliponaxis: false, hovertext: a26.map(fN), hovertemplate: '%{x}<br>AO 2026: <b>%{hovertext}</b><extra></extra>'}
             ], { 
                 ...layoutBase, title: titleStyle('ACTIVE OUTLET TREND'), 
-                xaxis: { showgrid: false, zeroline: false, type: 'category', range: [-0.6, 11.6] },
-                yaxis: { ...layoutBase.yaxis, range: [0, maxAO * 1.15] }
+                xaxis: { showgrid: false, zeroline: false, type: 'category', range: [-0.6, 11.6], fixedrange: true },
+                yaxis: { ...layoutBase.yaxis, range: [0, maxAO * 1.15], fixedrange: true }
             }, configBase);
             genTable('t_ao', a25, a26, bulanOrder, 'ao');
             
@@ -4508,8 +4523,8 @@ return Plotly;
                 }
             ], { 
                 ...layoutBase, title: titleStyle('PREDIKSI ACTIVE OUTLET S.D DESEMBER 2026 (MACHINE LEARNING)'), 
-                xaxis: { showgrid: false, zeroline: false, type: 'category', range: [-0.6, 11.6] },
-                yaxis: { ...layoutBase.yaxis, range: [0, maxML_AO * 1.15] },
+                xaxis: { showgrid: false, zeroline: false, type: 'category', range: [-0.6, 11.6], fixedrange: true },
+                yaxis: { ...layoutBase.yaxis, range: [0, maxML_AO * 1.15], fixedrange: true },
                 margin: {t:100, b:70, l:50, r:30},
                 legend: {orientation:'h', y:-0.25, x:0.5, xanchor:'center'}
             }, configBase);
