@@ -4113,15 +4113,24 @@ return Plotly;
 
             const titleStyle = (txt) => ({ text: txt, x: 0.5, xanchor: 'center', y: 0.95, yanchor: 'top', font: { color: titleColor, size: 16 } });
 
+            // PENGATURAN LAYOUT UNTUK MENGUNCI GRAFIK DARI ZOOM & GESER
             const layoutBase = { 
                 paper_bgcolor: 'rgba(0,0,0,0)', 
                 plot_bgcolor: 'rgba(0,0,0,0)', 
                 font: { color: fontColor, size: 11 }, 
                 margin: { t: 100, b: 50, l: 60, r: 100 }, 
-                xaxis: { showgrid: true, gridcolor: gridColor, range: [-0.8, 12.0] }, 
-                yaxis: { showgrid: true, gridcolor: gridColor } 
+                xaxis: { showgrid: true, gridcolor: gridColor, range: [-0.8, 12.0], fixedrange: true }, // fixedrange agar tidak bisa dizoom/geser sumbu X
+                yaxis: { showgrid: true, gridcolor: gridColor, fixedrange: true }, // fixedrange agar tidak bisa dizoom/geser sumbu Y
+                dragmode: false // mematikan fitur interaktif drag di atas grafik
             };
-            const configBase = { responsive: true };
+            
+            // PENGATURAN CONFIG UNTUK MEMBATASI TOMBOL TOOLBAR HANYA "DOWNLOAD PNG"
+            const configBase = { 
+                responsive: true,
+                displayModeBar: true, 
+                modeBarButtons: [['toImage']], // Hanya tampilkan tombol camera (Download as PNG)
+                displaylogo: false // Menghilangkan tulisan logo 'plotly' di ujung kanan
+            };
 
             let fV = filterData(raw.vol);
             let s25=[], s26=[], a25=[], a26=[];
@@ -4140,7 +4149,7 @@ return Plotly;
                         {x:bulanOrder, y:v25, name:'2025', type:'bar', marker:{color:'#b29600'}, text: v25.map(v => v > 0 ? fN(v) : ''), textposition: 'auto', textangle: 0, customdata: v25.map(v => fN(v)), hovertemplate: '%{x}<br>Vol 2025: <b>%{customdata}</b><extra></extra>'},
                         {x:bulanOrder, y:v26, name:'2026', type:'bar', marker:{color:'#00729c'}, text: v26.map(v => v > 0 ? fN(v) : ''), textposition: 'auto', textangle: 0, customdata: v26.map(v => fN(v)), hovertemplate: '%{x}<br>Vol 2026: <b>%{customdata}</b><extra></extra>'},
                         {x:bulanOrder, y:gM, name:'Growth%', type:'scatter', yaxis:'y2', mode:'lines+markers+text', line:{shape:'spline'}, text:gM.map(g => g!=0?g.toFixed(0)+'%':''), textposition:'top center', customdata: gM.map(g => g.toFixed(1) + '%'), hovertemplate: '%{x}<br>Growth: <b>%{customdata}</b><extra></extra>'}
-                    ], { ...layoutBase, title: titleStyle('GRAFIK VOLUME YOY'), barmode:'group', yaxis2: {overlaying:'y', side:'right', showgrid:false, zeroline: false} }, configBase);
+                    ], { ...layoutBase, title: titleStyle('GRAFIK VOLUME YOY'), barmode:'group', yaxis2: {overlaying:'y', side:'right', showgrid:false, zeroline: false, fixedrange: true} }, configBase);
                     genTable('t_vol', v25, v26, bulanOrder, 'vol');
                 }
 
@@ -4164,7 +4173,7 @@ return Plotly;
                     {x:qtrOrder, y:q25, name:'2025', type:'bar', marker:{color:'#FF9F00'}, text: q25.map(v => v > 0 ? fN(v) : ''), textposition: 'auto', textangle: 0, customdata: q25.map(v => fN(v)), hovertemplate: '%{x}<br>Vol 2025: <b>%{customdata}</b><extra></extra>'},
                     {x:qtrOrder, y:q26, name:'2026', type:'bar', marker:{color:'#00FFFF'}, text: q26.map(v => v > 0 ? fN(v) : ''), textposition: 'auto', textangle: 0, customdata: q26.map(v => fN(v)), hovertemplate: '%{x}<br>Vol 2026: <b>%{customdata}</b><extra></extra>'},
                     {x:qtrOrder, y:gQ, name:'Growth%', type:'scatter', yaxis:'y2', mode:'lines+markers+text', line:{shape:'spline'}, text:gQ.map(g => g.toFixed(1)+'%'), textposition:'top center', customdata: gQ.map(g => g.toFixed(1) + '%'), hovertemplate: '%{x}<br>Growth: <b>%{customdata}</b><extra></extra>'}
-                ], { ...layoutBase, title: titleStyle('GRAFIK KUARTAL'), barmode:'group', yaxis2: {overlaying:'y', side:'right', showgrid:false, zeroline: false}, xaxis: { showgrid: true, gridcolor: gridColor } }, configBase);
+                ], { ...layoutBase, title: titleStyle('GRAFIK KUARTAL'), barmode:'group', yaxis2: {overlaying:'y', side:'right', showgrid:false, zeroline: false, fixedrange: true}, xaxis: { showgrid: true, gridcolor: gridColor, fixedrange: true } }, configBase);
                 genTable('t_qtr', q25, q26, qtrOrder, 'vol');
 
                 let currentBulanFull = raw.max_bulan_full;
@@ -4189,7 +4198,7 @@ return Plotly;
                     {x:bulanFull, y:tgtM, name:'Target Manual', type:'bar', marker:{color:'rgba(255,165,0,0.5)'}, text: tgtM.map(v => v > 0 ? fN(v) : ''), textposition: 'auto', textangle: 0, customdata: tgtM.map(v => fN(v)), hovertemplate: '%{x}<br>Target: <b>%{customdata}</b><extra></extra>'},
                     {x:bulanFull, y:actM, name:'Actual', type:'bar', marker:{color:'#0a5c02'}, text: actM.map(v => v > 0 ? fN(v) : ''), textposition: 'auto', textangle: 0, customdata: actM.map(v => fN(v)), hovertemplate: '%{x}<br>Actual: <b>%{customdata}</b><extra></extra>'},
                     {x:bulanFull, y:achM, name:'Ach%', type:'scatter', yaxis:'y2', mode:'lines+markers+text', line:{color:'#0099ff', width:3, shape:'spline'}, text:achM.map(v=>v.toFixed(0)+'%'), textposition:'top center', textangle: 0, customdata: achM.map(v => v.toFixed(1) + '%'), hovertemplate: '%{x}<br>Ach: <b>%{customdata}</b><extra></extra>'}
-                ], { ...layoutBase, title: titleStyle('ACTUAL VS TARGET MANUAL 2026'), barmode:'group', yaxis2: {overlaying:'y', side:'right', showgrid:false, range:[0, 150]}, xaxis: { showgrid: true, gridcolor: gridColor } }, configBase);
+                ], { ...layoutBase, title: titleStyle('ACTUAL VS TARGET MANUAL 2026'), barmode:'group', yaxis2: {overlaying:'y', side:'right', showgrid:false, range:[0, 150], fixedrange: true}, xaxis: { showgrid: true, gridcolor: gridColor, fixedrange: true } }, configBase);
                 
                 let htmlTgt = `<table><thead><tr><th>Indicator</th>` + bulanFull.map(b => `<th>${b}</th>`).join('') + `</tr></thead><tbody>`;
                 htmlTgt += `<tr><td style="font-weight:bold;">Target (Ketik)</td>` + bulanFull.map(b => `<td><input type="number" class="target-input" placeholder="isi tgt..." value="${manualTargets[keyFilterKey][b] || ''}" onchange="updateManualTarget('${keyFilterKey}', '${b}', this.value)"></td>`).join('') + `</tr>`;
@@ -4316,8 +4325,8 @@ return Plotly;
                 });
                 Plotly.newPlot('c_p_sku', traces, {
                     ...layoutBase, title: titleStyle('PREDIKSI VOLUME PER SKU (OKT - DES 2026)'),
-                    barmode: 'group', yaxis: { automargin: true, tickfont: {size: 11, color: fontColor} },
-                    xaxis: { title: 'Volume (Qty)', gridcolor: gridColor }, margin: { t: 80, b: 50, l: 150, r: 20 },
+                    barmode: 'group', yaxis: { automargin: true, tickfont: {size: 11, color: fontColor}, fixedrange: true },
+                    xaxis: { title: 'Volume (Qty)', gridcolor: gridColor, fixedrange: true }, margin: { t: 80, b: 50, l: 150, r: 20 },
                     height: Math.max(450, uniqueSkus.length * 75)
                 }, configBase);
             }
